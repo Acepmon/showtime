@@ -1,0 +1,138 @@
+{% extends "layout.html" %}
+{% block title %}Images{% endblock %}
+{% block styles %}
+    <link rel=stylesheet href=/static/pure/pure-min.css type=text/css>
+{#    <link rel=stylesheet href=/static/pure/tables-min.css type=text/css>#}
+{#    <link rel=stylesheet href=/static/pure/buttons-core-min.css type=text/css>#}
+{#    <link rel=stylesheet href=/static/pure/buttons-min.css type=text/css>#}
+<style>
+    .button-success,
+    .button-error,
+    .button-warning,
+    .button-secondary {
+        color: white;
+        border-radius: 4px;
+        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    }
+    .button-success {
+        background: rgb(28, 184, 65); /* this is a green */
+    }
+
+    .button-error {
+        background: rgb(202, 60, 60); /* this is a maroon */
+    }
+
+    .button-warning {
+        background: rgb(223, 117, 20); /* this is an orange */
+    }
+
+    .button-secondary {
+        background: rgb(66, 184, 221); /* this is a light blue */
+    }
+</style>
+{% endblock %}
+{% block body %}
+    <h2>List</h2>
+    <form method=get enctype=multipart/form-data>
+        {% if error %}
+            <p class=error><strong>Error:</strong> {{ error }}
+        {% endif %}
+        <br>
+
+        <label for=keyword>search:</label>
+        <input type=text name=keyword id=keyword value="{{ keyword }}">
+
+        <input type=submit value=Search>
+        <br>
+        <br>
+    </form>
+    <table class="pure-table" style="word-break: break-word;">
+        <thead>
+            <tr>
+                <th>Target</th>
+                <th width="240px">Content to show</th>
+                <th width="50px">Type</th>
+                <th>Title</th>
+                <th>User</th>
+                <th width="90px">Created at</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        {% for img in images %}
+            <tr class="{{ loop.cycle('pure-table-odd', '') }}">
+                <td>
+                    <a href="{{ abs_url(conf.UPLOAD_DIR_SRC[1:], img['src_name']) }}" target="_blank">
+                        <img src="{{ abs_url(conf.UPLOAD_DIR_SRC[1:], img['src_name']) }}" class="thumbnail" />
+                    </a>
+                </td>
+                <td>
+                    {% if img['target_type'] == conf.TAR_TYPE_IMAGE %}
+                        <a href="{{ abs_url(conf.UPLOAD_DIR_TAR_IMG[1:], img['target']) }}" target="_blank">
+                            <img src="{{ abs_url(conf.UPLOAD_DIR_TAR_IMG[1:], img['target']) }}" class="thumbnail" />
+                        </a>
+                    {% elif img['target_type'] == conf.TAR_TYPE_VIDEO %}
+                        <video src="{{ abs_url(conf.UPLOAD_DIR_TAR_VIDEO[1:], img['target'].replace('.3g2', '.mp4')) }}" class="thumbnail-video" controls="controls"/>
+                    {% elif img['target_type'] == conf.TAR_TYPE_URL %}
+                        <a href="{{ img['target'] }}" target="_blank">{{ img['target'] }}</a>
+                    {% elif img['target_type'] == conf.TAR_TYPE_URL_YT %}
+                        <a href="{{ img['target'] }}" target="_blank">{{ img['target'] }}</a>
+                    {% elif img['target_type'] == conf.TAR_TYPE_MODEL %}
+                        {{ img['target'] }}
+                    {% endif %}
+                </td>
+                <td>
+                    <span>
+                        {% if img['target_type'] == conf.TAR_TYPE_IMAGE %}
+                            Image
+                        {% elif img['target_type'] == conf.TAR_TYPE_VIDEO %}
+                            Video
+                        {% elif img['target_type'] == conf.TAR_TYPE_URL %}
+                            URL
+                        {% elif img['target_type'] == conf.TAR_TYPE_URL_YT %}
+                            Youtube URL
+                        {% elif img['target_type'] == conf.TAR_TYPE_MODEL %}
+                            Model
+                        {% endif %}
+                    </span>
+                </td>
+                <td><span>{{ img['title'] }}</span></td>
+                <td><span>{{ img['username'] }}</span></td>
+                <td><span>{{ img['created_at'] }}</span></td>
+                <td style="text-align: center">
+                    {% if img['pinned'] %}
+                        <a href="/admin_toggle_pin?id={{ img['id'] }}">
+                            <button class="pure-button button-warning" title="Unpin, so it's treated as equal to other images">Unpin</button>
+                        </a>
+                    {% else %}
+                        <a href="/admin_toggle_pin?id={{ img['id'] }}">
+                            <button class="pure-button button-success" title="Mark pinned, so it has higher priority when searching">Mark as pinned</button>
+                        </a>
+                    {% endif %}
+                    <a href="/admin_remove_image?id={{ img['id'] }}" onclick="return confirm('are you sure?')">
+                        <button class="pure-button button-error" title="Remove image" style="margin-top: 10px">Remove</button>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <div class=pagination>
+        {%- for page in pagination.iter_pages() %}
+            {% if page %}
+                {% if page != pagination.page %}
+                        <a href="{{ url_for('admin_list/' ~ (page)) }}">{{ page }}</a>
+                {% else %}
+                    <strong>{{ page }}</strong>
+                {% endif %}
+            {% else %}
+                <span class=ellipsis>…</span>
+            {% endif %}
+        {%- endfor %}
+        {% if pagination.has_next %}
+            <a href="{{ url_for('admin_list/' ~ (pagination.page + 1))}}">Next &raquo;</a>
+        {% endif %}
+    </div>
+
+
+{% endblock %}
+

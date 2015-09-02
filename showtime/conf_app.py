@@ -1,0 +1,22 @@
+HOSTIP = '202.70.46.184'
+# HOSTIP = '192.168.0.100'
+# HOSTIP = '127.0.0.1'
+HOSTPORT = 44000
+HOSTPORT_SERVE = 44001
+ALGORITHM = 'surf'
+ALLOWED_EXTENSIONS = set(['jpg', 'jpeg', 'png', 'gif', 'mp4', '3gp', 'mov', 'mkv'])
+UPLOAD_DIR_SRC = './static/uploads/src'
+UPLOAD_DIR_TAR_IMG = './static/uploads/img'
+UPLOAD_DIR_TAR_VIDEO = './static/uploads/vid'
+UPLOAD_DIR_TEMP = './static/uploads/tmp'
+TAR_TYPE_IMAGE = 1
+TAR_TYPE_VIDEO = 2
+TAR_TYPE_URL = 3
+TAR_TYPE_URL_YT = 4
+TAR_TYPE_MODEL = 5
+ENABLE_ROTATED_SEARCH = True
+
+SEARCH_PRECISION = 0.6
+IMAGE_MAX_SIZE = 512
+
+USERNAME_MIN_LENGTH = 3

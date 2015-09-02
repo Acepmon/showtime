@@ -1,0 +1,84 @@
+[11/Aug/2015:19:52:32] ENGINE AttributeError("'NoneType' object has no attribute 'dtype'",)
+Traceback (most recent call last):
+  File "/usr/lib/python2.6/site-packages/cherrypy/wsgiserver/wsgiserver2.py", line 1353, in communicate
+    req.respond()
+  File "/usr/lib/python2.6/site-packages/cherrypy/wsgiserver/wsgiserver2.py", line 868, in respond
+    self.server.gateway(self).respond()
+  File "/usr/lib/python2.6/site-packages/cherrypy/wsgiserver/wsgiserver2.py", line 2267, in respond
+    response = self.req.server.wsgi_app(self.env, self.start_response)
+  File "/usr/lib/python2.6/site-packages/cherrypy/_cptree.py", line 299, in __call__
+    return app(environ, start_response)
+  File "/usr/lib/python2.6/site-packages/werkzeug/contrib/sessions.py", line 347, in __call__
+    return ClosingIterator(self.app(environ, injecting_start_response),
+  File "/var/www/showtime/showtime.py", line 493, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/usr/lib/python2.6/site-packages/werkzeug/wsgi.py", line 591, in __call__
+    return self.app(environ, start_response)
+  File "/var/www/showtime/showtime.py", line 489, in wsgi_app
+    response = self.dispatch_request(request)
+  File "/var/www/showtime/showtime.py", line 481, in dispatch_request
+    return getattr(self, 'on_' + endpoint)(request, **values)
+  File "/var/www/showtime/showtime.py", line 206, in on_search_image
+    search_result = cvtools.search_image(conf.UPLOAD_DIR_TEMP + '/' + search_img_name)
+  File "/var/www/showtime/cvtools.py", line 273, in search_image
+    result, dists = flann.nn_index(d, 5, checks=params["checks"])
+  File "/usr/lib/python2.6/site-packages/pyflann/index.py", line 213, in nn_index
+    if not qpts.dtype.type in allowed_types:
+AttributeError: 'NoneType' object has no attribute 'dtype'
+
+[11/Aug/2015:19:52:56] ENGINE AttributeError("'NoneType' object has no attribute 'dtype'",)
+Traceback (most recent call last):
+  File "/usr/lib/python2.6/site-packages/cherrypy/wsgiserver/wsgiserver2.py", line 1353, in communicate
+    req.respond()
+  File "/usr/lib/python2.6/site-packages/cherrypy/wsgiserver/wsgiserver2.py", line 868, in respond
+    self.server.gateway(self).respond()
+  File "/usr/lib/python2.6/site-packages/cherrypy/wsgiserver/wsgiserver2.py", line 2267, in respond
+    response = self.req.server.wsgi_app(self.env, self.start_response)
+  File "/usr/lib/python2.6/site-packages/cherrypy/_cptree.py", line 299, in __call__
+    return app(environ, start_response)
+  File "/usr/lib/python2.6/site-packages/werkzeug/contrib/sessions.py", line 347, in __call__
+    return ClosingIterator(self.app(environ, injecting_start_response),
+  File "/var/www/showtime/showtime.py", line 493, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/usr/lib/python2.6/site-packages/werkzeug/wsgi.py", line 591, in __call__
+    return self.app(environ, start_response)
+  File "/var/www/showtime/showtime.py", line 489, in wsgi_app
+    response = self.dispatch_request(request)
+  File "/var/www/showtime/showtime.py", line 481, in dispatch_request
+    return getattr(self, 'on_' + endpoint)(request, **values)
+  File "/var/www/showtime/showtime.py", line 206, in on_search_image
+    search_result = cvtools.search_image(conf.UPLOAD_DIR_TEMP + '/' + search_img_name)
+  File "/var/www/showtime/cvtools.py", line 273, in search_image
+    result, dists = flann.nn_index(d, 5, checks=params["checks"])
+  File "/usr/lib/python2.6/site-packages/pyflann/index.py", line 213, in nn_index
+    if not qpts.dtype.type in allowed_types:
+AttributeError: 'NoneType' object has no attribute 'dtype'
+
+[11/Aug/2015:19:53:00] ENGINE AttributeError("'NoneType' object has no attribute 'dtype'",)
+Traceback (most recent call last):
+  File "/usr/lib/python2.6/site-packages/cherrypy/wsgiserver/wsgiserver2.py", line 1353, in communicate
+    req.respond()
+  File "/usr/lib/python2.6/site-packages/cherrypy/wsgiserver/wsgiserver2.py", line 868, in respond
+    self.server.gateway(self).respond()
+  File "/usr/lib/python2.6/site-packages/cherrypy/wsgiserver/wsgiserver2.py", line 2267, in respond
+    response = self.req.server.wsgi_app(self.env, self.start_response)
+  File "/usr/lib/python2.6/site-packages/cherrypy/_cptree.py", line 299, in __call__
+    return app(environ, start_response)
+  File "/usr/lib/python2.6/site-packages/werkzeug/contrib/sessions.py", line 347, in __call__
+    return ClosingIterator(self.app(environ, injecting_start_response),
+  File "/var/www/showtime/showtime.py", line 493, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/usr/lib/python2.6/site-packages/werkzeug/wsgi.py", line 591, in __call__
+    return self.app(environ, start_response)
+  File "/var/www/showtime/showtime.py", line 489, in wsgi_app
+    response = self.dispatch_request(request)
+  File "/var/www/showtime/showtime.py", line 481, in dispatch_request
+    return getattr(self, 'on_' + endpoint)(request, **values)
+  File "/var/www/showtime/showtime.py", line 206, in on_search_image
+    search_result = cvtools.search_image(conf.UPLOAD_DIR_TEMP + '/' + search_img_name)
+  File "/var/www/showtime/cvtools.py", line 273, in search_image
+    result, dists = flann.nn_index(d, 5, checks=params["checks"])
+  File "/usr/lib/python2.6/site-packages/pyflann/index.py", line 213, in nn_index
+    if not qpts.dtype.type in allowed_types:
+AttributeError: 'NoneType' object has no attribute 'dtype'
+

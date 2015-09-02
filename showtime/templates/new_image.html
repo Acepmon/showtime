@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+{% block title %}home{% endblock %}
+{% block body %}
+    <h2>Select an image</h2>
+    <form action="/upload_image" method=post enctype=multipart/form-data>
+        {% if error %}
+            <p class=error><strong>Error:</strong> {{ error }}
+        {% endif %}
+        <br>
+
+        <label for=title>Title:</label>
+        <input type=text name=title id=title value="">
+        <br><br>
+
+        <label for=src_img>Image:</label>
+        <input type=file name=src_img id=src_img>
+        <br><br>
+
+        <label for=target_type>Target type:</label>
+        <select name="target_type" id="target_type">
+            <option value=0>Select target type</option>
+            <option value=3>Link</option>
+            <option value=1>Image</option>
+            <option value=2>Video</option>
+            <option value=4>Youtube Link</option>
+        </select>
+        <br><br>
+
+        <label for=target_url>Target URL:</label>
+        <input type=text name=target_url id=target_url>
+        <br><br>
+
+        <label for=target_image>Target image:</label>
+        <input type=file name=target_image id=target_image>
+        <br><br>
+
+        <label for=target_video>Target video:</label>
+        <input type=file name=target_video id=target_video>
+        <br><br>
+
+        <label for=target_url_yt>Target YouTube link:</label>
+        <input type=text name=target_url_yt id=target_url_yt>
+        <br><br>
+
+        <label for=user_id>User ID:</label>
+        <input type=text name=user_id id=user_id value="1">
+        <br><br>
+
+        <label for=session_id>Session ID:</label>
+        <input type=text name=session_id id=session_id value="">
+        <br><br>
+
+        <center><input type=submit value=upload></center>
+    </form>
+{% endblock %}
