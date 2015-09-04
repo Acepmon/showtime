@@ -19,7 +19,7 @@ if __name__ == '__main__':
     server = cherrypy._cpserver.Server()
 
     # Configure the server object
-    ip = "202.70.46.184"
+    ip = "127.0.0.1"
     port = 44000
     server.socket_host = ip
     server.socket_port = port
