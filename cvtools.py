@@ -442,7 +442,7 @@ def user_logged_in(user_id, session_id):
         return True
     return False
 
-
+# 
 def insert_user_view(user_id, image_id):
     if user_id > 0 and image_id > 0:
         query = "INSERT INTO user_view (user_id, image_id) VALUES (%s, %s) ON DUPLICATE KEY UPDATE created_at = NOW()"
@@ -450,7 +450,7 @@ def insert_user_view(user_id, image_id):
         return mysql_exec(query, data)  # return inserted id
     return False
 
-
+# administration login
 def admin_login(username, password):
     if username is not None:
         res = mysql_fetch("SELECT * FROM user WHERE (username = %(username)s AND password = MD5(%(password)s)) ",
