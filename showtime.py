@@ -464,7 +464,15 @@ class Showtime(object):
 
         response_str = json.dumps([res])
         return Response(response_str, mimetype='application/json')
-
+    
+    def on_logout(self, request):
+        res = {'error': 1}
+        if request.method == 'POST':
+            # your code here...
+            some_code_here
+        else:
+            res['error_msg'] = 'request is not POST'
+        
     def error_404(self):
         response = self.render_template('404.html')
         response.status_code = 404
