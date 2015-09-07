@@ -69,7 +69,7 @@ def mysql_exec(query, data):
 def mysql_fetch(query, data):
     result = False
     con = mysql_connect()
-    cursor = None
+    cursor = con.cursor(dictionary=True)
     try:
         print "something of course"
         cursor = con.cursor(dictionary=True)
