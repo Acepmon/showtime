@@ -69,15 +69,10 @@ def mysql_exec(query, data):
 def mysql_fetch(query, data):
     result = False
     con = mysql_connect()
-    cursor = con.cursor(dictionary=True)
     try:
-        print "something of course"
         cursor = con.cursor(dictionary=True)
-        print "something something something"
         cursor.execute((query), data)
-        print "something2 something2 something2"
         result = cursor.fetchall()
-        print "something3 something3 something3"
     finally:
         cursor.close()
         con.close()
