@@ -71,6 +71,7 @@ def mysql_fetch(query, data):
     con = mysql_connect()
     cursor = None
     try:
+        print "something of course"
         cursor = con.cursor(dictionary=True)
         print "something something something"
         cursor.execute((query), data)
