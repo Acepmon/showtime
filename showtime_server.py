@@ -1,7 +1,7 @@
 import cherrypy
 from showtime import create_app
 
-# server = wsgiserver.CherryPyWSGIServer(('192.168.0.110', 44000), create_app())
+# server = wsgiserver.CherryPyWSGIServer(('202.70.46.184', 44000), create_app())
 # try:
     # server.start()
 # except KeyboardInterrupt:
@@ -19,7 +19,7 @@ if __name__ == '__main__':
     server = cherrypy._cpserver.Server()
 
     # Configure the server object
-    ip = "192.168.0.110"
+    ip = "202.70.46.184"
     port = 44000
     server.socket_host = ip
     server.socket_port = port
