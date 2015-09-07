@@ -73,6 +73,8 @@ def mysql_fetch(query, data):
         cursor = con.cursor(dictionary=True)
         cursor.execute((query), data)
         result = cursor.fetchall()
+    except Error as error:
+        print "".format(error.errno, error.strerror)
     finally:
         cursor.close()
         con.close()
