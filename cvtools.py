@@ -72,8 +72,11 @@ def mysql_fetch(query, data):
     cursor = None
     try:
         cursor = con.cursor(dictionary=True)
+        print "something something something"
         cursor.execute((query), data)
+        print "something2 something2 something2"
         result = cursor.fetchall()
+        print "something3 something3 something3"
     finally:
         cursor.close()
         con.close()
