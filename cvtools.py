@@ -69,15 +69,18 @@ def mysql_exec(query, data):
 def mysql_fetch(query, data):
     result = False
     con = mysql_connect()
-    try:
-        cursor = con.cursor(dictionary=True)
-        cursor.execute((query), data)
-        result = cursor.fetchall()
-    except Error as error:
-        print "".format(error.errno, error.strerror)
-    finally:
-        cursor.close()
-        con.close()
+    cursor = con.cursor(dictionary=True)
+    cursor.execute((query), data)
+    result = cursor.fetchall()
+#    try:
+#        cursor = con.cursor(dictionary=True)
+#        cursor.execute((query), data)
+#        result = cursor.fetchall()
+#    except Error as error:
+#        print "".format(error.errno, error.strerror)
+#    finally:
+    cursor.close()
+    con.close()
     return result
 
 
