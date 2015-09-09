@@ -1,0 +1,7 @@
+Options +ExecCGI
+AddHandler fcgid-script .fcgi
+RewriteEngine On
+RewriteCond %(REQUEST_FILENAME) !-f
+RewriteRule ^(.*)$ showtime.fcgi/$1 [QSA,L]
+RewriteLog rewrite.log
+RewriteLogLevel 3
