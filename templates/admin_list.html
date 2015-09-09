@@ -32,6 +32,7 @@
 </style>
 {% endblock %}
 {% block body %}
+    
     <h2>List</h2>
     <form method=get enctype=multipart/form-data>
         {% if error %}
@@ -43,9 +44,10 @@
         <input type=text name=keyword id=keyword value="{{ keyword }}">
 
         <input type=submit value=Search>
-        <br>
-        <br>
     </form>
+    <button style="margin-left: 20%">Sign out</button>
+    <br>
+    <br>
     <table class="pure-table" style="word-break: break-word;">
         <thead>
             <tr>
