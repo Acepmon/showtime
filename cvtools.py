@@ -69,7 +69,7 @@ def mysql_exec(query, data):
 def mysql_fetch(query, data):
     result = False
     con = mysql_connect()
-    cursor = con.cursor(dictionary=True)
+    cursor = con.cursor(dictionary=True, **kwargs)
     cursor.execute((query), data)
     result = cursor.fetchall()
 #    try:
