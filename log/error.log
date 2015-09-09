@@ -82,3 +82,8 @@ Traceback (most recent call last):
     if not qpts.dtype.type in allowed_types:
 AttributeError: 'NoneType' object has no attribute 'dtype'
 
+[09/Sep/2015:12:59:02] ENGINE Bus STARTING
+[09/Sep/2015:12:59:02] ENGINE Started monitor thread '_TimeoutMonitor'.
+[09/Sep/2015:12:59:02] ENGINE Started monitor thread 'Autoreloader'.
+[09/Sep/2015:12:59:02] ENGINE Serving on http://202.70.46.184:44000
+[09/Sep/2015:12:59:02] ENGINE Bus STARTED

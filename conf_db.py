@@ -1,5 +1,5 @@
 MYSQL_USER = 'showtime'
 MYSQL_PASS = 'showtimebaby777'
-MYSQL_HOST = '192.168.0.110'
+MYSQL_HOST = 'localhost'
 MYSQL_DB = 'showtime'
 SQLITE_DB = './sqlite/descriptors'
