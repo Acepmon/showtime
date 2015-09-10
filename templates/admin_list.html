@@ -40,11 +40,15 @@
         <br>
 
         <label for=keyword>search:</label>
-        <input type=text name=keyword id=keyword value="{{ keyword }}">
+        <input type=text name=keyword id=keyword placeholder="{{ keyword }}">
 
         <input type=submit value=Search>
+        
+        <!-- My changes start here -->
+        <a href="?action=signout"><input type="button" style="float: right; margin-right: 10px;" id="signout_button" value="Sign out"></a>
+        <div style="clear: both"></div>
+        <!-- My changes end here -->
     </form>
-    <button style="margin-left: 20%;" id="signout_button">Sign out</button>
     
     <br>
     <br>

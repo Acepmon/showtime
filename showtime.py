@@ -75,7 +75,15 @@ class Showtime(object):
         if request.cookies.get('cookie_name') is None:
             return redirect('/')
         keyword = request.args.get('keyword')
-
+        action = request.args.get('action')
+        
+        # My changes start here
+        if action == "signout":
+            session_store.delete(cvtools.do_logout(cvtools.get_id_by_sess(request.cookies.get(request.session.sid))))
+            response = redirect('/')
+            response.set_cookie('cookie_name', null)
+        # My changes end here
+        
         page = cvtools.num(page)
         per_page = 10
 

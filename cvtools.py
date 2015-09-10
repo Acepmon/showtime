@@ -434,6 +434,21 @@ def do_login(username, email, password):
         return True, sess_id, res[0]['id']
     return False, '', 0
 
+# My changes start here
+def get_id_by_sess(session_id):
+    if session_id is not None:
+        user = mysql_fetch("SELECT * FROM user WHERE session_id = %(session_id)s limit 1", {'session_id' : session_id})
+        return True, user[0]['id']
+    return False, ''
+
+def do_logout(user_id):
+    if user_id is not None:
+        query = "UPDATE user SET session_id = %s WHERE id = %s"
+        data = ('', user_id)
+        mysql_exec(query,data)
+        return True
+    return False
+# My changes end here
 
 def user_logged_in(user_id, session_id):
     res = mysql_fetch("SELECT * FROM user WHERE id = %(id)s AND session_id = %(sess)s",
