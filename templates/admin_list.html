@@ -30,31 +30,65 @@
         background: rgb(66, 184, 221); /* this is a light blue */
     }
 </style>
+<script type="text/javascript">
+    function checkAll() {
+        var check_all = document.getElementById('check_all');
+        if (check_all.checked) {
+            var checked = document.getElementsByClassName("checked");
+            for (var i =0; i < checked.length; i++) {
+                checked[i].checked = true;
+            }
+        } else {
+            var checked = document.getElementsByClassName("checked");
+            for (var i =0; i < checked.length; i++) {
+                checked[i].checked = false;
+            }
+        }
+    }
+</script>
 {% endblock %}
 {% block body %}
+
     <h2>List</h2>
     <form method=get enctype=multipart/form-data>
         {% if error %}
             <p class=error><strong>Error:</strong> {{ error }}
         {% endif %}
         <br>
-
+        
         <label for=keyword>search:</label>
-        <input type=text name=keyword id=keyword placeholder="{{ keyword }}">
-
+        <input type=text name=keyword id=keyword value="{{ keyword }}" placeholder="Search keyword here...">
+        
+        <!-- My changes start here -->
+        <select name="option">
+            <option value="title">Search by 'Title'</option>
+            <option value="type">Search by 'Type'</option>
+            <option value="user">Search by 'User'</option>
+        </select>
+        <!-- My changes end here -->
+        
         <input type=submit value=Search>
         
         <!-- My changes start here -->
-        <a href="?action=signout"><input type="button" style="float: right; margin-right: 10px;" id="signout_button" value="Sign out"></a>
+        <input type="button" onclick="document.location.href='/admin_list/?action=Signout'" style="float: right;" name="action" value="Signout">
         <div style="clear: both"></div>
         <!-- My changes end here -->
     </form>
     
     <br>
-    <br>
+    <!-- My changes start here -->
+    {% if count > 0 %}
+    <p>About <strong>{{ count }} </strong> results</p>
+    <!-- action="/admin_remove_multiple_image" -->
+    <form action="/admin_remove_multiple_image" method=get>
+    <div class="checked_remove" style="margin: 5px 0px 5px 0px">
+        <button type="submit" class="pure-button button-error" onclick="return confirm('Are you sure?')">Remove checked</button>
+    </div>
+    <!-- My changes end here -->
     <table class="pure-table" style="word-break: break-word;">
         <thead>
             <tr>
+                <th><input type="checkbox" name="check_all" id="check_all" onclick="checkAll()"/></th>
                 <th>Target</th>
                 <th width="240px">Content to show</th>
                 <th width="50px">Type</th>
@@ -66,6 +100,7 @@
         </thead>
         {% for img in images %}
             <tr class="{{ loop.cycle('pure-table-odd', '') }}">
+                <td><input type="checkbox" name="checked[]" value="{{img['id']}}" class="checked"/></td>
                 <td>
                     <a href="{{ abs_url(conf.UPLOAD_DIR_SRC[1:], img['src_name']) }}" target="_blank">
                         <img src="{{ abs_url(conf.UPLOAD_DIR_SRC[1:], img['src_name']) }}" class="thumbnail" />
@@ -121,7 +156,7 @@
             </tr>
         {% endfor %}
     </table>
-
+    </form>
     <div class=pagination>
         {%- for page in pagination.iter_pages() %}
             {% if page %}
@@ -138,7 +173,11 @@
             <a href="{{ url_for('admin_list/' ~ (pagination.page + 1))}}">Next &raquo;</a>
         {% endif %}
     </div>
-
+    <!-- My changes start here -->
+    {% else %}
+    <p style="color: rgb(202, 60, 60);"><b>No Data Found!</b></p>
+    {% endif %}
+    <!-- My changes end here -->
 
 {% endblock %}
 

@@ -318,7 +318,6 @@ def search_image(img):
             return result
     return False
 
-
 def get_list(keyword=None, user_id=None, image_id=None, order_by="i.created_at DESC", page=1, per_page=30):
     arr = []
     if keyword is not None:
@@ -357,6 +356,86 @@ def get_list(keyword=None, user_id=None, image_id=None, order_by="i.created_at D
     result = mysql_fetch(query, data)
     result_count = mysql_fetch(query_count, data)
     return result, result_count[0]['numrows']
+
+# My changes start here
+def get_list_type(keyword=None, user_id=None, image_id=None, order_by="i.created_at DESC", page=1, per_page=30):
+    arr = []
+    if keyword is not None:
+        arr.append('i.target_type LIKE %(kw)s')
+    else:
+        keyword = ""
+
+    if user_id is not None:
+        arr.append('i.user_id = %(uid)s')
+    else:
+        user_id = ""
+
+    if image_id is not None:
+        arr.append('i.id = %(id)s')
+    else:
+        image_id = ""
+
+    if page in [None, 0]:
+        page = 1
+
+    if per_page in [None, 0]:
+        per_page = 30
+
+    where = ""
+    if (len(arr) > 0):
+        where = "WHERE " + " AND ".join(arr)
+
+    query = "SELECT i.id, i.src_name, i.target_type, i.target, i.user_id, i.title, u.username, i.created_at, i.pinned " \
+            "FROM image i " \
+            "LEFT JOIN showtime.user u ON u.id = i.user_id " \
+            "" + where + " ORDER BY " + order_by + " LIMIT " + str((page - 1) * int(per_page)) + ", " + str(per_page)
+    query_count = "SELECT COUNT(i.id) as 'numrows' " \
+                  "FROM image i " \
+                  "LEFT JOIN showtime.user u ON u.id = i.user_id " + where
+    data = {'kw': keyword + "%", 'uid': user_id, 'id': image_id}
+    result = mysql_fetch(query, data)
+    result_count = mysql_fetch(query_count, data)
+    return result, result_count[0]['numrows']
+
+def get_list_user(keyword=None, user_id=None, image_id=None, order_by="i.created_at DESC", page=1, per_page=30):
+    arr = []
+    if keyword is not None:
+        arr.append('u.username LIKE %(kw)s')
+    else:
+        keyword = ""
+
+    if user_id is not None:
+        arr.append('i.user_id = %(uid)s')
+    else:
+        user_id = ""
+
+    if image_id is not None:
+        arr.append('i.id = %(id)s')
+    else:
+        image_id = ""
+
+    if page in [None, 0]:
+        page = 1
+
+    if per_page in [None, 0]:
+        per_page = 30
+
+    where = ""
+    if (len(arr) > 0):
+        where = "WHERE " + " AND ".join(arr)
+
+    query = "SELECT i.id, i.src_name, i.target_type, i.target, i.user_id, i.title, u.username, i.created_at, i.pinned " \
+            "FROM image i " \
+            "LEFT JOIN showtime.user u ON u.id = i.user_id " \
+            "" + where + " ORDER BY " + order_by + " LIMIT " + str((page - 1) * int(per_page)) + ", " + str(per_page)
+    query_count = "SELECT COUNT(i.id) as 'numrows' " \
+                  "FROM image i " \
+                  "LEFT JOIN showtime.user u ON u.id = i.user_id " + where
+    data = {'kw': keyword + "%", 'uid': user_id, 'id': image_id}
+    result = mysql_fetch(query, data)
+    result_count = mysql_fetch(query_count, data)
+    return result, result_count[0]['numrows']
+# My changes end here
 
 
 def toggle_pinned(img_id):

@@ -41,6 +41,7 @@ class Showtime(object):
             Rule('/admin_list/<int:page>', endpoint='admin_list'),
             Rule('/admin_toggle_pin', endpoint='admin_toggle_pin'),
             Rule('/admin_remove_image', endpoint='admin_remove_image'),
+            Rule('/admin_remove_multiple_image', endpoint='admin_remove_multiple_image'),
             # Rule('/new_image', endpoint='new_image'),
             Rule('/upload_image', endpoint='upload_image'),
             Rule('/search_image', endpoint='search_image'),
@@ -72,28 +73,41 @@ class Showtime(object):
         return self.render_template('index.html', error=error)
 
     def on_admin_list(self, request, page):
-        if request.cookies.get('cookie_name') is None:
+        if request.cookies.get('cookie_name') is None or request.cookies.get('cookie_name') == '':
             return redirect('/')
         keyword = request.args.get('keyword')
-        action = request.args.get('action')
         
         # My changes start here
-        if action == "signout":
-            session_store.delete(cvtools.do_logout(cvtools.get_id_by_sess(request.cookies.get(request.session.sid))))
+        if keyword is None:
+            keyword = ""
+            
+        option = request.args.get('option')
+        action = request.args.get('action')
+
+        if action == "Signout":
             response = redirect('/')
-            response.set_cookie('cookie_name', null)
+            response.set_cookie('cookie_name', '')
+            return response
         # My changes end here
         
         page = cvtools.num(page)
         per_page = 10
-
-        images, count = cvtools.get_list(keyword, None, None, 'i.created_at DESC, i.pinned DESC', page, per_page)
+        
+        # My changes start here
+        if option == "type":
+            images, count = cvtools.get_list_type(keyword, None, None, 'i.created_at DESC, i.pinned DESC', page, per_page)
+        elif option == "user":
+            images, count = cvtools.get_list_user(keyword, None, None, 'i.created_at DESC, i.pinned DESC', page, per_page)
+        else:
+            images, count = cvtools.get_list(keyword, None, None, 'i.created_at DESC, i.pinned DESC', page, per_page)
+        # My changes end here
+            
         if not images and page != 1:
             return self.error_404()
         pagination = pg.Pagination(page, per_page, count)
 
         return self.render_template('admin_list.html', error=None, images=images, pagination=pagination,
-                                    keyword=keyword, abs_url=cvtools.get_abs_url, url_for=url_for, conf=conf)
+                                    keyword=keyword, count=count, option=option, selected='true', abs_url=cvtools.get_abs_url, url_for=url_for, conf=conf)
 
     def on_admin_toggle_pin(self, request):
         if request.cookies.get('cookie_name') is None:
@@ -122,6 +136,30 @@ class Showtime(object):
                 if not cvtools.remove_image(img_id, conf.UPLOAD_DIR_SRC + '/' + image['src_name'], tar):
                     error = 1
         return redirect(request.referrer)
+    
+    # My changes start here
+    def on_admin_remove_multiple_image(self, request):
+        if request.cookies.get('cookie_name') is None:
+            return redirect('/')
+        checked = request.args.getlist('checked[]')
+        error = 0
+        for img_id in checked:
+            if img_id is not None:
+                image, count = cvtools.get_list(None, None, img_id)
+                if len(image) > 0:
+                    image = image[0]
+                    if image['target_type'] == conf.TAR_TYPE_IMAGE:
+                        tar = conf.UPLOAD_DIR_TAR_IMG + '/' + image['target']
+                    elif image['target_type'] == conf.TAR_TYPE_VIDEO:
+                        tar = conf.UPLOAD_DIR_TAR_VIDEO + '/' + image['target']
+                    else:
+                        tar = None
+
+                    if not cvtools.remove_image(img_id, conf.UPLOAD_DIR_SRC + '/' + image['src_name'], tar):
+                        error = 1
+                    
+        return redirect(request.referrer)
+    # My changes end here
 
     def on_new_image(self, request):
         return self.render_template('new_image.html', error=None)
