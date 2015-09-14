@@ -80,9 +80,47 @@ class Showtime(object):
         # My changes start here
         if keyword is None:
             keyword = ""
-            
+        
         option = request.args.get('option')
         action = request.args.get('action')
+        
+        notype = '0'
+        types = ['', '', '', '', '', '']
+        
+        if request.args.get('type-image') is not None:
+            type_image = str(request.args.get('type-image'))
+        else:
+            type_image = notype
+            
+        types[1] = type_image
+            
+        if request.args.get('type-video') is not None:
+            type_video = str(request.args.get('type-video'))
+        else:
+            type_video = notype
+        
+        types[2] = type_video
+        
+        if request.args.get('type-url') is not None:
+            type_url = str(request.args.get('type-url'))
+        else:
+            type_url = notype
+            
+        types[3] = type_url
+            
+        if request.args.get('type-youtube') is not None:
+            type_youtube = str(request.args.get('type-youtube'))
+        else:
+            type_youtube = notype
+            
+        types[4] = type_youtube
+            
+        if request.args.get('type-model') is not None:
+            type_model = str(request.args.get('type-model'))
+        else:
+            type_model = notype
+            
+        types[5] = type_model
 
         if action == "Signout":
             response = redirect('/')
@@ -107,7 +145,7 @@ class Showtime(object):
         pagination = pg.Pagination(page, per_page, count)
 
         return self.render_template('admin_list.html', error=None, images=images, pagination=pagination,
-                                    keyword=keyword, count=count, option=option, selected='true', abs_url=cvtools.get_abs_url, url_for=url_for, conf=conf)
+                                    keyword=keyword, count=count, option=option, selected='true', types=types, notype=notype, abs_url=cvtools.get_abs_url, url_for=url_for, conf=conf)
 
     def on_admin_toggle_pin(self, request):
         if request.cookies.get('cookie_name') is None:

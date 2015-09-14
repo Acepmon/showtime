@@ -29,7 +29,18 @@
     .button-secondary {
         background: rgb(66, 184, 221); /* this is a light blue */
     }
+    /* My changes start here */
+    .search-type-holder {
+        float: left;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+    .clearfix {
+        clear: both;
+    }
+    /* My changes end here */
 </style>
+<!-- My changes start here -->
 <script type="text/javascript">
     function checkAll() {
         var check_all = document.getElementById('check_all');
@@ -45,7 +56,52 @@
             }
         }
     }
+    function validateCheckAll() {
+        var check_all = document.getElementById('check_all');
+        var checked = document.getElementsByClassName("checked");
+        var count = 0;
+        for (var i =0; i < checked.length; i++) {
+            if (checked[i].checked) {
+                count = count + 1;
+            }
+        }
+        if (count === checked.length) {
+            check_all.checked = true;
+        } else {
+            check_all.checked = false;
+        }
+    }
+    function checkAllType() {
+        var check_all = document.getElementById('search-type-all');
+        if (check_all.checked) {
+            var checked = document.getElementsByClassName("search-type-checkbox");
+            for (var i =0; i < checked.length; i++) {
+                checked[i].checked = true;
+            }
+        } else {
+            var checked = document.getElementsByClassName("search-type-checkbox");
+            for (var i =0; i < checked.length; i++) {
+                checked[i].checked = false;
+            }
+        }
+    }
+    function validateAllType() {
+        var check_all = document.getElementById('search-type-all');
+        var checked = document.getElementsByClassName("search-type-checkbox");
+        var count = 0;
+        for (var i =0; i < checked.length; i++) {
+            if (checked[i].checked) {
+                count = count + 1;
+            }
+        }
+        if (count === checked.length) {
+            check_all.checked = true;
+        } else {
+            check_all.checked = false;
+        }
+    }
 </script>
+<!-- My changes end here -->
 {% endblock %}
 {% block body %}
 
@@ -56,14 +112,21 @@
         {% endif %}
         <br>
         
-        <label for=keyword>search:</label>
+        <label for=keyword>Search:</label>
         <input type=text name=keyword id=keyword value="{{ keyword }}" placeholder="Search keyword here...">
         
         <!-- My changes start here -->
         <select name="option">
-            <option value="title">Search by 'Title'</option>
-            <option value="type">Search by 'Type'</option>
-            <option value="user">Search by 'User'</option>
+            {% if option == "title" %}
+                <option value="title" selected>Search by 'Title'</option>
+                <option value="user">Search by 'User'</option>
+            {% elif option == "user" %}
+                <option value="title">Search by 'Title'</option>
+                <option value="user" selected>Search by 'User'</option>
+            {% else %}
+                <option value="title">Search by 'Title'</option>
+                <option value="user">Search by 'User'</option>
+            {% endif %}
         </select>
         <!-- My changes end here -->
         
@@ -71,7 +134,58 @@
         
         <!-- My changes start here -->
         <input type="button" onclick="document.location.href='/admin_list/?action=Signout'" style="float: right;" name="action" value="Signout">
-        <div style="clear: both"></div>
+        <div class="clearfix"></div>
+        <br>
+        <div style="float: left;">
+            <label for=keyword>Search type: </label>
+        </div>
+        <div class="search-type-holder">
+            <input type="checkbox" id="search-type-all" onclick="checkAllType()"/> All
+        </div>
+        <div class="search-type-holder">
+            {% if types[1] == notype %}
+            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-image" value="1"/> Image
+            {% else %}
+            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-image" value="1" selected='true'/> Image
+            {% endif %}
+            {{ types[1] }}
+        </div>
+        <div class="search-type-holder">
+            {% if types[2] == notype %}
+            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-video" value="2"/> Video
+            {% else %}
+            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-video" value="2" selected=true/> Video
+            {% endif %}
+            
+            {{ types[2] }}
+        </div>
+        <div class="search-type-holder">
+            {% if types[3] == notype %}
+            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-url" value="3"/> URL
+            {% else %}
+            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-url" value="3" selected='true'/> URL
+            {% endif %}
+            {{ types[3] }}
+        </div>
+        <div class="search-type-holder">
+            {% if types[4] == notype %}
+            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-youtube" value="4"/> Youtube
+            {% else %}
+            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-youtube" value="4" selected='true'/> Youtube
+            {% endif %}
+            
+            {{ types[4] }}
+        </div>
+        <div class="search-type-holder">
+            {% if types[5] == notype %}
+            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-model" value="5"/> Model
+            {% else %}
+            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-model" value="5" selected='true'/> Model
+            {% endif %}
+            {{ types[5] }}
+        </div>
+        <script>validateAllType();</script>
+        <div class="clearfix"></div>
         <!-- My changes end here -->
     </form>
     
@@ -100,7 +214,7 @@
         </thead>
         {% for img in images %}
             <tr class="{{ loop.cycle('pure-table-odd', '') }}">
-                <td><input type="checkbox" name="checked[]" value="{{img['id']}}" class="checked"/></td>
+                <td><input type="checkbox" name="checked[]" value="{{img['id']}}" class="checked" onclick="validateCheckAll()"/></td>
                 <td>
                     <a href="{{ abs_url(conf.UPLOAD_DIR_SRC[1:], img['src_name']) }}" target="_blank">
                         <img src="{{ abs_url(conf.UPLOAD_DIR_SRC[1:], img['src_name']) }}" class="thumbnail" />
