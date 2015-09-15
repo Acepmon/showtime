@@ -115,6 +115,8 @@ class Showtime(object):
             response = redirect('/')
             response.set_cookie('cookie_name', '')
             return response
+        
+        search = request.args.get('search')
         # My changes end here
         
         page = cvtools.num(page)
@@ -134,7 +136,7 @@ class Showtime(object):
         pagination = pg.Pagination(page, per_page, count)
 
         return self.render_template('admin_list.html', error=None, images=images, pagination=pagination,
-                                    keyword=keyword, count=count, option=option, selected='true', types=types, abs_url=cvtools.get_abs_url, url_for=url_for, conf=conf)
+                                    keyword=keyword, count=count, option=option, selected='true', types=types, search=search, abs_url=cvtools.get_abs_url, url_for=url_for, conf=conf)
 
     def on_admin_toggle_pin(self, request):
         if request.cookies.get('cookie_name') is None:

@@ -1,21 +1,24 @@
 {% extends "layout.html" %}
 {% block title %}home{% endblock %}
 {% block body %}
-    <h2>Login</h2>
-    <form method=post enctype=multipart/form-data>
-        {% if error %}
-            <p class=error><strong>Error:</strong> {{ error }}
-        {% endif %}
-        <br>
-
-        <label for=username>username:</label>
-        <input type=text name=username id=username value="">
-        <br><br>
-
-        <label for=password>password:</label>
-        <input type=password name=password id=password value="">
-        <br><br>
-
-        <div style="text-align: center;"><input type=submit value=Login></div>
-    </form>
+<h2 class="text-primary">Login</h2>
+<hr />
+<form method=post enctype=multipart/form-data>
+    {% if error %}
+    <p class=error><strong>Error:</strong> {{ error }}</p>
+    {% endif %}
+    <div class="col-md-5">
+        <fieldset class="form-group">
+            <label for=username>Username:</label>
+            <input type=text name=username id=username value="" class="form-control">
+        </fieldset>
+        <fieldset class="form-group">
+            <label for=password>Password:</label>
+            <input type=password name=password id=password value="" class="form-control">
+        </fieldset>
+        <fieldset class="form-group">
+            <input type=submit value=Login class="btn btn-primary btn-lg">
+        </fieldset>
+    </div>
+</form>
 {% endblock %}

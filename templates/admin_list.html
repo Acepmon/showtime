@@ -1,43 +1,43 @@
 {% extends "layout.html" %}
 {% block title %}Images{% endblock %}
 {% block styles %}
-    <link rel=stylesheet href=/static/pure/pure-min.css type=text/css>
-{#    <link rel=stylesheet href=/static/pure/tables-min.css type=text/css>#}
-{#    <link rel=stylesheet href=/static/pure/buttons-core-min.css type=text/css>#}
-{#    <link rel=stylesheet href=/static/pure/buttons-min.css type=text/css>#}
+<!--<link rel=stylesheet href=/static/pure/pure-min.css type=text/css>-->
+{#    <!--<link rel=stylesheet href=/static/pure/tables-min.css type=text/css>-->#}
+{#    <!--<link rel=stylesheet href=/static/pure/buttons-core-min.css type=text/css>-->#}
+{#    <!--<link rel=stylesheet href=/static/pure/buttons-min.css type=text/css>-->#}
 <style>
-    .button-success,
-    .button-error,
-    .button-warning,
-    .button-secondary {
-        color: white;
-        border-radius: 4px;
-        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-    }
-    .button-success {
-        background: rgb(28, 184, 65); /* this is a green */
-    }
-
-    .button-error {
-        background: rgb(202, 60, 60); /* this is a maroon */
-    }
-
-    .button-warning {
-        background: rgb(223, 117, 20); /* this is an orange */
-    }
-
-    .button-secondary {
-        background: rgb(66, 184, 221); /* this is a light blue */
-    }
-    /* My changes start here */
-    .search-type-holder {
-        float: left;
-        margin-left: 5px;
-        margin-right: 5px;
-    }
-    .clearfix {
-        clear: both;
-    }
+    /*    .button-success,
+        .button-error,
+        .button-warning,
+        .button-secondary {
+            color: white;
+            border-radius: 4px;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+        }
+        .button-success {
+            background: rgb(28, 184, 65);  this is a green 
+        }
+    
+        .button-error {
+            background: rgb(202, 60, 60);  this is a maroon 
+        }
+    
+        .button-warning {
+            background: rgb(223, 117, 20);  this is an orange 
+        }
+    
+        .button-secondary {
+            background: rgb(66, 184, 221);  this is a light blue 
+        }
+         My changes start here 
+        .search-type-holder {
+            float: left;
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+        .clearfix {
+            clear: both;
+        }*/
     /* My changes end here */
 </style>
 <!-- My changes start here -->
@@ -46,12 +46,12 @@
         var check_all = document.getElementById('check_all');
         if (check_all.checked) {
             var checked = document.getElementsByClassName("checked");
-            for (var i =0; i < checked.length; i++) {
+            for (var i = 0; i < checked.length; i++) {
                 checked[i].checked = true;
             }
         } else {
             var checked = document.getElementsByClassName("checked");
-            for (var i =0; i < checked.length; i++) {
+            for (var i = 0; i < checked.length; i++) {
                 checked[i].checked = false;
             }
         }
@@ -60,7 +60,7 @@
         var check_all = document.getElementById('check_all');
         var checked = document.getElementsByClassName("checked");
         var count = 0;
-        for (var i =0; i < checked.length; i++) {
+        for (var i = 0; i < checked.length; i++) {
             if (checked[i].checked) {
                 count = count + 1;
             }
@@ -75,12 +75,12 @@
         var check_all = document.getElementById('search-type-all');
         if (check_all.checked) {
             var checked = document.getElementsByClassName("search-type-checkbox");
-            for (var i =0; i < checked.length; i++) {
+            for (var i = 0; i < checked.length; i++) {
                 checked[i].checked = true;
             }
         } else {
             var checked = document.getElementsByClassName("search-type-checkbox");
-            for (var i =0; i < checked.length; i++) {
+            for (var i = 0; i < checked.length; i++) {
                 checked[i].checked = false;
             }
         }
@@ -89,7 +89,7 @@
         var check_all = document.getElementById('search-type-all');
         var checked = document.getElementsByClassName("search-type-checkbox");
         var count = 0;
-        for (var i =0; i < checked.length; i++) {
+        for (var i = 0; i < checked.length; i++) {
             if (checked[i].checked) {
                 count = count + 1;
             }
@@ -100,201 +100,268 @@
             check_all.checked = false;
         }
     }
+    function checkTypeFromOuter(element, num) {
+        var element = element;
+        var childs = element.children;
+        if (childs[0].checked) {
+            childs[0].checked = false;
+        } else {
+            childs[0].checked = true;
+        }
+        if (num === 0) {
+            checkAllType();
+        }
+        validateAllType();
+        var parent = element.parentElement.parentElement;
+        parent.style.display = "block";
+    }
 </script>
 <!-- My changes end here -->
 {% endblock %}
 {% block body %}
 
-    <h2>List</h2>
-    <form method=get enctype=multipart/form-data>
+<!-- My changes start here -->
+<h2 class="text-primary">List</h2>
+<hr />
+<div class="row">
+    <div class="col-md-12">
         {% if error %}
-            <p class=error><strong>Error:</strong> {{ error }}
+        <p class="text-danger"><strong>Oh snap!</strong> {{ error }}</p>
         {% endif %}
-        <br>
-        
-        <label for=keyword>Search:</label>
-        <input type=text name=keyword id=keyword value="{{ keyword }}" placeholder="Search keyword here...">
-        
-        <!-- My changes start here -->
-        <select name="option">
-            {% if option == "title" %}
-                <option value="title" selected>Search by 'Title'</option>
-                <option value="user">Search by 'User'</option>
-            {% elif option == "user" %}
-                <option value="title">Search by 'Title'</option>
-                <option value="user" selected>Search by 'User'</option>
-            {% else %}
-                <option value="title">Search by 'Title'</option>
-                <option value="user">Search by 'User'</option>
-            {% endif %}
-        </select>
-        <!-- My changes end here -->
-        
-        <input type=submit value=Search>
-        
-        <!-- My changes start here -->
-        <input type="button" onclick="document.location.href='/admin_list/?action=Signout'" style="float: right;" name="action" value="Signout">
-        <div class="clearfix"></div>
-        <br>
-        <div style="float: left;">
-            <label for=keyword>Search type: </label>
-        </div>
-        <div class="search-type-holder">
-            <input type="checkbox" id="search-type-all" onclick="checkAllType()"/> All
-        </div>
-        <div class="search-type-holder">
-            {% if types[1] == conf.TAR_TYPE_IMAGE %}
-            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-image" value="1" checked /> Image
-            {% elif types[1] == conf.TAR_TYPE_NOTYPE %}
-            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-image" value="1" /> Image
-            {% else %}
-            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-image" value="1" checked /> Image
-            {% endif %}
-        </div>
-        <div class="search-type-holder">
-            {% if types[2] == conf.TAR_TYPE_VIDEO %}
-            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-video" value="2" checked /> Video
-            {% elif types[2] == conf.TAR_TYPE_NOTYPE %}
-            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-video" value="2" /> Video
-            {% else %}
-            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-video" value="2" checked /> Video
-            {% endif %}
-        </div>
-        <div class="search-type-holder">
-            {% if types[3] == conf.TAR_TYPE_URL %}
-            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-url" value="3" checked /> URL
-            {% elif types[3] == conf.TAR_TYPE_NOTYPE %}
-            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-url" value="3" /> URL            
-            {% else %}
-            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-url" value="3" checked /> URL
-            {% endif %}
-        </div>
-        <div class="search-type-holder">
-            {% if types[4] == conf.TAR_TYPE_URL_YT %}
-            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-youtube" value="4" checked /> Youtube
-            {% elif types[4] == conf.TAR_TYPE_NOTYPE %}
-            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-youtube" value="4" /> Youtube
-            {% else %}
-            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-youtube" value="4" checked /> Youtube
-            {% endif %}
-        </div>
-        <div class="search-type-holder">
-            {% if types[5] == conf.TAR_TYPE_MODEL %}
-            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-model" value="5" checked /> Model
-            {% elif types[5] == conf.TAR_TYPE_NOTYPE %}
-            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-model" value="5" /> Model
-            {% else %}
-            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-model" value="5" checked /> Model
-            {% endif %}
-        </div>
-        <script>validateAllType();</script>
-        <div class="clearfix"></div>
-        <!-- My changes end here -->
-    </form>
-    
-    <br>
-    <!-- My changes start here -->
-    {% if count > 0 %}
-    <p>About <strong>{{ count }} </strong> results</p>
-    <!-- action="/admin_remove_multiple_image" -->
-    <form action="/admin_remove_multiple_image" method=get>
-    <div class="checked_remove" style="margin: 5px 0px 5px 0px">
-        <button type="submit" class="pure-button button-error" onclick="return confirm('Are you sure?')">Remove checked</button>
-    </div>
-    <!-- My changes end here -->
-    <table class="pure-table" style="word-break: break-word;">
-        <thead>
-            <tr>
-                <th><input type="checkbox" name="check_all" id="check_all" onclick="checkAll()"/></th>
-                <th>Target</th>
-                <th width="240px">Content to show</th>
-                <th width="50px">Type</th>
-                <th>Title</th>
-                <th>User</th>
-                <th width="90px">Created at</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        {% for img in images %}
-            <tr class="{{ loop.cycle('pure-table-odd', '') }}">
-                <td><input type="checkbox" name="checked[]" value="{{img['id']}}" class="checked" onclick="validateCheckAll()"/></td>
-                <td>
-                    <a href="{{ abs_url(conf.UPLOAD_DIR_SRC[1:], img['src_name']) }}" target="_blank">
-                        <img src="{{ abs_url(conf.UPLOAD_DIR_SRC[1:], img['src_name']) }}" class="thumbnail" />
-                    </a>
-                </td>
-                <td>
-                    {% if img['target_type'] == conf.TAR_TYPE_IMAGE %}
-                        <a href="{{ abs_url(conf.UPLOAD_DIR_TAR_IMG[1:], img['target']) }}" target="_blank">
-                            <img src="{{ abs_url(conf.UPLOAD_DIR_TAR_IMG[1:], img['target']) }}" class="thumbnail" />
-                        </a>
-                    {% elif img['target_type'] == conf.TAR_TYPE_VIDEO %}
-                        <video src="{{ abs_url(conf.UPLOAD_DIR_TAR_VIDEO[1:], img['target'].replace('.3g2', '.mp4')) }}" class="thumbnail-video" controls="controls"/>
-                    {% elif img['target_type'] == conf.TAR_TYPE_URL %}
-                        <a href="{{ img['target'] }}" target="_blank">{{ img['target'] }}</a>
-                    {% elif img['target_type'] == conf.TAR_TYPE_URL_YT %}
-                        <a href="{{ img['target'] }}" target="_blank">{{ img['target'] }}</a>
-                    {% elif img['target_type'] == conf.TAR_TYPE_MODEL %}
-                        {{ img['target'] }}
-                    {% endif %}
-                </td>
-                <td>
-                    <span>
-                        {% if img['target_type'] == conf.TAR_TYPE_IMAGE %}
-                            Image
-                        {% elif img['target_type'] == conf.TAR_TYPE_VIDEO %}
-                            Video
-                        {% elif img['target_type'] == conf.TAR_TYPE_URL %}
-                            URL
-                        {% elif img['target_type'] == conf.TAR_TYPE_URL_YT %}
-                            Youtube URL
-                        {% elif img['target_type'] == conf.TAR_TYPE_MODEL %}
-                            Model
+        <form method="get" enctype="multipart/form-data">
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <button tabindex="-1" class="btn btn-default" type="button">Filter</button>
+                    <button tabindex="-1" data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                        <span class="caret"></span>
+                    </button>
+                    <ul role="menu" class="dropdown-menu">
+                        <li>
+                            <a href="javascript:void(0)" >
+                                <input type="checkbox" id="search-type-all" onclick="checkAllType()"/><span class="lbl"> All</span>
+                            </a></li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="javascript:void(0)">
+                                {% if types[1] == conf.TAR_TYPE_IMAGE %}
+                                <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-image" value="1" checked /> <span class="lbl">Image</span>
+                                {% elif types[1] == conf.TAR_TYPE_NOTYPE %}
+                                <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-image" value="1" /> <span class="lbl">Image</span>
+                                {% else %}
+                                <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-image" value="1" checked /> <span class="lbl">Image</span>
+                                {% endif %}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" >
+                                {% if types[2] == conf.TAR_TYPE_VIDEO %}
+                                <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-video" value="2" checked /> <span class="lbl">Video</span>
+                                {% elif types[2] == conf.TAR_TYPE_NOTYPE %}
+                                <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-video" value="2" /> <span class="lbl">Video</span>
+                                {% else %}
+                                <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-video" value="2" checked /> <span class="lbl">Video</span>
+                                {% endif %}
+
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" >
+                                {% if types[3] == conf.TAR_TYPE_URL %}
+                                <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-url" value="3" checked /> <span class="lbl">URL</span>
+                                {% elif types[3] == conf.TAR_TYPE_NOTYPE %}
+                                <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-url" value="3" /> <span class="lbl">URL</span>
+                                {% else %}
+                                <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-url" value="3" checked /> <span class="lbl">URL</span>
+                                {% endif %}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" >
+                                {% if types[4] == conf.TAR_TYPE_URL_YT %}
+                                <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-youtube" value="4" checked /> <span class="lbl">Youtube</span>
+                                {% elif types[4] == conf.TAR_TYPE_NOTYPE %}
+                                <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-youtube" value="4" /> <span class="lbl">Youtube</span>
+                                {% else %}
+                                <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-youtube" value="4" checked /> <span class="lbl">Youtube</span>
+                                {% endif %}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" >
+                                {% if types[5] == conf.TAR_TYPE_MODEL %}
+                                <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-model" value="5" checked /> <span class="lbl">Model</span>
+                                {% elif types[5] == conf.TAR_TYPE_NOTYPE %}
+                                <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-model" value="5" /> <span class="lbl">Model</span>
+                                {% else %}
+                                <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-model" value="5" checked /> <span class="lbl">Model</span>
+                                {% endif %}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <input type="text" class="form-control" name=keyword id=keyword value="{{ keyword }}" placeholder="Search keyword here...">
+                <div class="input-group-btn" style="width: 100px;">
+                    <select class="form-control" name="option">
+                        {% if option == "user" %}
+                        <option value="title">Title</option>
+                        <option value="user" selected>User</option>
+                        {% else %}
+                        <option value="title" selected>Title</option>
+                        <option value="user">User</option>
                         {% endif %}
-                    </span>
-                </td>
-                <td><span>{{ img['title'] }}</span></td>
-                <td><span>{{ img['username'] }}</span></td>
-                <td><span>{{ img['created_at'] }}</span></td>
-                <td style="text-align: center">
-                    {% if img['pinned'] %}
-                        <a href="/admin_toggle_pin?id={{ img['id'] }}">
-                            <button class="pure-button button-warning" title="Unpin, so it's treated as equal to other images">Unpin</button>
-                        </a>
-                    {% else %}
-                        <a href="/admin_toggle_pin?id={{ img['id'] }}">
-                            <button class="pure-button button-success" title="Mark pinned, so it has higher priority when searching">Mark as pinned</button>
-                        </a>
-                    {% endif %}
-                    <a href="/admin_remove_image?id={{ img['id'] }}" onclick="return confirm('are you sure?')">
-                        <button class="pure-button button-error" title="Remove image" style="margin-top: 10px">Remove</button>
-                    </a>
-                </td>
-            </tr>
-        {% endfor %}
-    </table>
-    </form>
-    <div class=pagination>
-        {%- for page in pagination.iter_pages() %}
-            {% if page %}
-                {% if page != pagination.page %}
-                        <a href="{{ url_for('admin_list/' ~ (page)) }}">{{ page }}</a>
-                {% else %}
-                    <strong>{{ page }}</strong>
-                {% endif %}
-            {% else %}
-                <span class=ellipsis>…</span>
-            {% endif %}
-        {%- endfor %}
-        {% if pagination.has_next %}
-            <a href="{{ url_for('admin_list/' ~ (pagination.page + 1))}}">Next &raquo;</a>
-        {% endif %}
+                    </select>
+                </div>
+                <span class="input-group-btn">
+                    <input type="hidden" name="search" value="true" />
+                    <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                </span>
+            </div>
+        </form>
     </div>
-    <!-- My changes start here -->
-    {% else %}
-    <p style="color: rgb(202, 60, 60);"><b>No Data Found!</b></p>
+</div>
+<br />
+
+{% if count > 0 %}
+<!-- action="/admin_remove_multiple_image" -->
+<form action="/admin_remove_multiple_image" method=get>
+    {% if search %}
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Search Results</h4>
+            <p class="lead" style="font-size: 16px; margin-bottom: 0px;">
+                <strong class="text-success">{{count}}</strong> results were found for the search for <strong class="text-success">{{keyword}}</strong>
+            </p>
+        </div>
+    </div>
     {% endif %}
     <!-- My changes end here -->
+    <div class="row">
+        <div class="col-md-12 search-result">
+            <div class="table-responsive">
+                <table class="table">
+                    <tr>
+                        <th>
+                            <div class="checked_remove">
+                                <button type="button" class="btn btn-default" style="padding: 5px 10px 6px 10px;">
+                                    <input type="checkbox" style="float: left; " name="check_all" id="check_all" onclick="checkAll()"/> <div style="padding-top: 1px; margin-left: 2px; float: left"> Mark All</div>
+                                    <div class="clearfix"></div>
+                                </button>
+                                <div class="btn-group">
+                                    <button type="submit" class="btn btn-default" onclick="return confirm('Are you sure?')"><span class="glyphicon glyphicon-trash text-danger"></span> <span class="text-danger">Remove Marked</span></button>
+                                </div>
+                            </div>
+                        </th>
+                        <th>
+                            <h3 class="text-center text-primary">Target</h3>
+                        </th>
+                        <th style="padding-left: 10px;">
+                            <h3 class="text-left text-primary">Content</h3>
+                        </th>
+                    </tr>
+                    {% for img in images %}
+                    <tr>
+                        <td>
+                            <ul class="meta-search">
+                                <li>
+                                    <i class="glyphicon glyphicon-header"></i> 
+                                    <span>{{ img['title'] }}</span>
+                                </li>
+                                <li>
+                                    <i class="glyphicon glyphicon-user"></i> 
+                                    <span>{{ img['username'] }}</span>
+                                </li>
+                                <li>
+                                    <i class="glyphicon glyphicon-th-large"></i> 
+                                    <span>
+                                        {% if img['target_type'] == conf.TAR_TYPE_IMAGE %}
+                                        Image
+                                        {% elif img['target_type'] == conf.TAR_TYPE_VIDEO %}
+                                        Video
+                                        {% elif img['target_type'] == conf.TAR_TYPE_URL %}
+                                        URL
+                                        {% elif img['target_type'] == conf.TAR_TYPE_URL_YT %}
+                                        Youtube URL
+                                        {% elif img['target_type'] == conf.TAR_TYPE_MODEL %}
+                                        Model
+                                        {% endif %}
+                                    </span>
+                                </li>
+                                <li>
+                                    <i class="glyphicon glyphicon-time"></i> 
+                                    <span>{{ img['created_at'] }}</span>
+                                </li>
+                                <li>
+                                    <div>
+                                        <button class="btn btn-default" onclick="javascript:void(0)" style="padding-top: 3px; padding-bottom: 3px; padding-left: 8px; padding-right: 8px;">
+                                            <input type="checkbox" name="checked[]" value="{{img['id']}}" class="checked" onclick="validateCheckAll()"/>
+                                        </button>
+                                        {% if img['pinned'] %}
+                                        <a href="/admin_toggle_pin?id={{ img['id'] }}">
+                                            <button class="btn btn-default" title="Unpin, so it's treated as equal to other images"><span class="glyphicon glyphicon-pushpin text-warning"></span> <span class="text-warning">Unpin</span></button>
+                                        </a>
+                                        {% else %}
+                                        <a href="/admin_toggle_pin?id={{ img['id'] }}">
+                                            <button class="btn btn-default" title="Mark pinned, so it has higher priority when searching"><span class="glyphicon glyphicon-pushpin text-success"></span> <span class="text-success">Pin</span></button>
+                                        </a>
+                                        {% endif %}
+                                        <a href="/admin_remove_image?id={{ img['id'] }}" onclick="return confirm('are you sure?')">
+                                            <button class="btn btn-default text-danger" title="Remove record"><span class="glyphicon glyphicon-trash text-danger"></span> <span class="text-danger">Remove</span></button>
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </td>
+                        <td>
+                            <a href="{{ abs_url(conf.UPLOAD_DIR_SRC[1:], img['src_name']) }}" target="_blank" style="padding: 0px; width: auto;" class="text-center">
+                                <img src="{{ abs_url(conf.UPLOAD_DIR_SRC[1:], img['src_name']) }}" class="thumbnail" />
+                            </a>
+                        </td>
+                        <td>
+                            {% if img['target_type'] == conf.TAR_TYPE_IMAGE %}
+                            <a href="{{ abs_url(conf.UPLOAD_DIR_TAR_IMG[1:], img['target']) }}" target="_blank" class="text-center">
+                                <img src="{{ abs_url(conf.UPLOAD_DIR_TAR_IMG[1:], img['target']) }}" class="thumbnail" />
+                            </a>
+                            {% elif img['target_type'] == conf.TAR_TYPE_VIDEO %}
+                            <video src="{{ abs_url(conf.UPLOAD_DIR_TAR_VIDEO[1:], img['target'].replace('.3g2', '.mp4')) }}" class="thumbnail-video img-thumbnail" controls="controls"/>
+                            {% elif img['target_type'] == conf.TAR_TYPE_URL %}
+                            <a href="{{ img['target'] }}" target="_blank">{{ img['target'] }}</a>
+                            {% elif img['target_type'] == conf.TAR_TYPE_URL_YT %}
+                            <a href="{{ img['target'] }}" target="_blank">{{ img['target'] }}</a>
+                            {% elif img['target_type'] == conf.TAR_TYPE_MODEL %}
+                            {{ img['target'] }}
+                            {% endif %}
+                        </td>
+                        
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</form>
+<div class=pagination>
+    {%- for page in pagination.iter_pages() %}
+    {% if page %}
+    {% if page != pagination.page %}
+    <a href="{{ url_for('admin_list/' ~ (page)) }}">{{ page }}</a>
+    {% else %}
+    <strong>{{ page }}</strong>
+    {% endif %}
+    {% else %}
+    <span class=ellipsis>…</span>
+    {% endif %}
+    {%- endfor %}
+    {% if pagination.has_next %}
+    <a href="{{ url_for('admin_list/' ~ (pagination.page + 1))}}">Next &raquo;</a>
+    {% endif %}
+</div>
+<!-- My changes start here -->
+{% else %}
+<div class="alert alert-danger" role="alert">
+    <span class="glyphicon glyphicon-warning-sign"></span> <strong>No Data Found!</strong>
+</div>
+{% endif %}
+<!-- My changes end here -->
 
 {% endblock %}
 
