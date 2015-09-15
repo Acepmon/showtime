@@ -143,46 +143,49 @@
             <input type="checkbox" id="search-type-all" onclick="checkAllType()"/> All
         </div>
         <div class="search-type-holder">
-            {% if types[1] == notype %}
-            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-image" value="1"/> Image
+            {% if types[1] == conf.TAR_TYPE_IMAGE %}
+            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-image" value="1" checked /> Image
+            {% elif types[1] == conf.TAR_TYPE_NOTYPE %}
+            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-image" value="1" /> Image
             {% else %}
-            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-image" value="1" selected='true'/> Image
+            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-image" value="1" checked /> Image
             {% endif %}
-            {{ types[1] }}
         </div>
         <div class="search-type-holder">
-            {% if types[2] == notype %}
-            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-video" value="2"/> Video
+            {% if types[2] == conf.TAR_TYPE_VIDEO %}
+            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-video" value="2" checked /> Video
+            {% elif types[2] == conf.TAR_TYPE_NOTYPE %}
+            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-video" value="2" /> Video
             {% else %}
-            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-video" value="2" selected=true/> Video
+            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-video" value="2" checked /> Video
             {% endif %}
-            
-            {{ types[2] }}
         </div>
         <div class="search-type-holder">
-            {% if types[3] == notype %}
-            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-url" value="3"/> URL
+            {% if types[3] == conf.TAR_TYPE_URL %}
+            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-url" value="3" checked /> URL
+            {% elif types[3] == conf.TAR_TYPE_NOTYPE %}
+            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-url" value="3" /> URL            
             {% else %}
-            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-url" value="3" selected='true'/> URL
+            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-url" value="3" checked /> URL
             {% endif %}
-            {{ types[3] }}
         </div>
         <div class="search-type-holder">
-            {% if types[4] == notype %}
-            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-youtube" value="4"/> Youtube
+            {% if types[4] == conf.TAR_TYPE_URL_YT %}
+            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-youtube" value="4" checked /> Youtube
+            {% elif types[4] == conf.TAR_TYPE_NOTYPE %}
+            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-youtube" value="4" /> Youtube
             {% else %}
-            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-youtube" value="4" selected='true'/> Youtube
+            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-youtube" value="4" checked /> Youtube
             {% endif %}
-            
-            {{ types[4] }}
         </div>
         <div class="search-type-holder">
-            {% if types[5] == notype %}
-            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-model" value="5"/> Model
+            {% if types[5] == conf.TAR_TYPE_MODEL %}
+            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-model" value="5" checked /> Model
+            {% elif types[5] == conf.TAR_TYPE_NOTYPE %}
+            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-model" value="5" /> Model
             {% else %}
-            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-model" value="5" selected='true'/> Model
+            <input type="checkbox" class="search-type-checkbox" onclick="validateAllType()" name="type-model" value="5" checked /> Model
             {% endif %}
-            {{ types[5] }}
         </div>
         <script>validateAllType();</script>
         <div class="clearfix"></div>

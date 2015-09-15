@@ -318,8 +318,35 @@ def search_image(img):
             return result
     return False
 
-def get_list(keyword=None, user_id=None, image_id=None, order_by="i.created_at DESC", page=1, per_page=30):
+def get_list(keyword=None, user_id=None, image_id=None, order_by="i.created_at DESC", page=1, per_page=30, passed_types=None):
     arr = []
+    
+    # My changes start here
+    type_condition = []
+    type_cond = ""
+    
+    if passed_types is not None:
+        for type in passed_types:
+            if type is not None:
+                if type == conf.TAR_TYPE_IMAGE:
+                    type_condition.append('i.target_type = 1')
+                elif type == conf.TAR_TYPE_VIDEO:
+                    type_condition.append('i.target_type = 2')
+                elif type == conf.TAR_TYPE_URL:
+                    type_condition.append('i.target_type = 3')
+                elif type == conf.TAR_TYPE_URL_YT:
+                    type_condition.append('i.target_type = 4')
+                elif type == conf.TAR_TYPE_MODEL:
+                    type_condition.append('i.target_type = 5')
+    
+    i = 1;
+    for type in type_condition:
+        type_cond = type_cond + " " + type
+        if (i != len(type_condition)):
+            type_cond = type_cond + " OR"
+        i += 1
+    # My changes end here
+    
     if keyword is not None:
         arr.append('i.title LIKE %(kw)s')
     else:
@@ -343,7 +370,10 @@ def get_list(keyword=None, user_id=None, image_id=None, order_by="i.created_at D
 
     where = ""
     if (len(arr) > 0):
-        where = "WHERE " + " AND ".join(arr)
+        where = where + "WHERE "
+        if len(type_cond) > 0:
+            where = where + "(" + type_cond + ") AND "
+        where = where + " AND ".join(arr)
 
     query = "SELECT i.id, i.src_name, i.target_type, i.target, i.user_id, i.title, u.username, i.created_at, i.pinned " \
             "FROM image i " \
@@ -358,8 +388,35 @@ def get_list(keyword=None, user_id=None, image_id=None, order_by="i.created_at D
     return result, result_count[0]['numrows']
 
 # My changes start here
-def get_list_type(keyword=None, user_id=None, image_id=None, order_by="i.created_at DESC", page=1, per_page=30):
+def get_list_type(keyword=None, user_id=None, image_id=None, order_by="i.created_at DESC", page=1, per_page=30, passed_types=None):
     arr = []
+    
+    # My changes start here
+    type_condition = []
+    type_cond = ""
+    
+    if passed_types is not None:
+        for type in passed_types:
+            if type is not None:
+                if type == conf.TAR_TYPE_IMAGE:
+                    type_condition.append('i.target_type = 1')
+                elif type == conf.TAR_TYPE_VIDEO:
+                    type_condition.append('i.target_type = 2')
+                elif type == conf.TAR_TYPE_URL:
+                    type_condition.append('i.target_type = 3')
+                elif type == conf.TAR_TYPE_URL_YT:
+                    type_condition.append('i.target_type = 4')
+                elif type == conf.TAR_TYPE_MODEL:
+                    type_condition.append('i.target_type = 5')
+    
+    i = 1;
+    for type in type_condition:
+        type_cond = type_cond + " " + type
+        if (i != len(type_condition)):
+            type_cond = type_cond + " OR"
+        i += 1
+    # My changes end here
+    
     if keyword is not None:
         arr.append('i.target_type LIKE %(kw)s')
     else:
@@ -383,7 +440,10 @@ def get_list_type(keyword=None, user_id=None, image_id=None, order_by="i.created
 
     where = ""
     if (len(arr) > 0):
-        where = "WHERE " + " AND ".join(arr)
+        where = where + "WHERE "
+        if len(type_cond) > 0:
+            where = where + "(" + type_cond + ") AND "
+        where = where + " AND ".join(arr)
 
     query = "SELECT i.id, i.src_name, i.target_type, i.target, i.user_id, i.title, u.username, i.created_at, i.pinned " \
             "FROM image i " \
@@ -397,8 +457,35 @@ def get_list_type(keyword=None, user_id=None, image_id=None, order_by="i.created
     result_count = mysql_fetch(query_count, data)
     return result, result_count[0]['numrows']
 
-def get_list_user(keyword=None, user_id=None, image_id=None, order_by="i.created_at DESC", page=1, per_page=30):
+def get_list_user(keyword=None, user_id=None, image_id=None, order_by="i.created_at DESC", page=1, per_page=30, passed_types=None):
     arr = []
+    
+    # My changes start here
+    type_condition = []
+    type_cond = ""
+    
+    if passed_types is not None:
+        for type in passed_types:
+            if type is not None:
+                if type == conf.TAR_TYPE_IMAGE:
+                    type_condition.append('i.target_type = 1')
+                elif type == conf.TAR_TYPE_VIDEO:
+                    type_condition.append('i.target_type = 2')
+                elif type == conf.TAR_TYPE_URL:
+                    type_condition.append('i.target_type = 3')
+                elif type == conf.TAR_TYPE_URL_YT:
+                    type_condition.append('i.target_type = 4')
+                elif type == conf.TAR_TYPE_MODEL:
+                    type_condition.append('i.target_type = 5')
+    
+    i = 1;
+    for type in type_condition:
+        type_cond = type_cond + " " + type
+        if (i != len(type_condition)):
+            type_cond = type_cond + " OR"
+        i += 1
+    # My changes end here
+    
     if keyword is not None:
         arr.append('u.username LIKE %(kw)s')
     else:
@@ -422,7 +509,10 @@ def get_list_user(keyword=None, user_id=None, image_id=None, order_by="i.created
 
     where = ""
     if (len(arr) > 0):
-        where = "WHERE " + " AND ".join(arr)
+        where = where + "WHERE "
+        if len(type_cond) > 0:
+            where = where + "(" + type_cond + ") AND "
+        where = where + " AND ".join(arr)
 
     query = "SELECT i.id, i.src_name, i.target_type, i.target, i.user_id, i.title, u.username, i.created_at, i.pinned " \
             "FROM image i " \

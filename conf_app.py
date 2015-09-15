@@ -9,6 +9,7 @@ UPLOAD_DIR_SRC = './static/uploads/src'
 UPLOAD_DIR_TAR_IMG = './static/uploads/img'
 UPLOAD_DIR_TAR_VIDEO = './static/uploads/vid'
 UPLOAD_DIR_TEMP = './static/uploads/tmp'
+TAR_TYPE_NOTYPE = 0
 TAR_TYPE_IMAGE = 1
 TAR_TYPE_VIDEO = 2
 TAR_TYPE_URL = 3
