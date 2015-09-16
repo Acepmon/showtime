@@ -6,7 +6,7 @@ body {
 
 body, input {
     font-family: 'Helvetica Neue', Arial,
-    sans-serif;
+        sans-serif;
     font-weight: 300;
     font-size: 16px;
 }
@@ -75,16 +75,16 @@ label {
 }
 
 .thumbnail {
-/*    max-width: 320px;
-    max-height: 320px;*/
+    /*    max-width: 320px;
+        max-height: 320px;*/
     width: auto;
     max-height: 200px;
     margin: 0px !important;
 }
 
 .thumbnail-video {
-/*    max-width: 440px;
-    max-height: 440px;*/
+    /*    max-width: 440px;
+        max-height: 440px;*/
     width: auto;
     max-height: 200px;
     margin: 0px !important;
@@ -98,15 +98,13 @@ label {
     border-radius: 2px;
 }
 @media only screen and (max-width:760px) {
-    .box2 {
-        margin-top: 0px;
-    }
+    
 }
 .header {
     border-radius: 0px !important;
     border-top-left-radius: 2px !important;
     border-top-right-radius: 2px !important;
-    background-color: #f8f8f8;
+    background-color: #3BE3E8;
     border-bottom: 1px solid lightgray;
 }
 .header a {
@@ -120,6 +118,10 @@ label {
 input[type=checkbox] {
     width: 16px;
     height: 16px;
+}
+
+.navbar {
+    margin-bottom: 20px;
 }
 
 .search-result table tr:first-child th {
