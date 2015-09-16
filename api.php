@@ -26,7 +26,7 @@
 			$password = $this->input->post('password');
 
 			if (!trim($email) || !trim($password)) {
-			    ret_make_response(101, "И-мэйл юм уу нууц үг хоосон байж болохгүй.");
+			    ret_make_response(101, "회원이메일이나 패스워드가 공백이면 안됩니다.");
 			}
 
 			//query the database
@@ -46,7 +46,7 @@
 				}
 			}
 			else{
-				ret_make_response(102, "Ийм бүртгэл байхгүй эсвэл нууц үг буруу байна.");
+				ret_make_response(102, "그러한 계정이 없거나 암호가 차이납니다.");
 			}
 
 			$ret_resp = make_response(0, '');
@@ -59,7 +59,7 @@
 			$password = $this->input->post('password');
 
 			if (!trim($email) || !trim($password)) {
-			    ret_make_response(101, "И-мэйл юм уу нууц үг хоосон байж болохгүй.");
+			    ret_make_response(101, "회원이메일이나 패스워드가 공백이면 안됩니다.");
 			}
 
 			//query the database
@@ -68,7 +68,7 @@
 
 			}
 			else{
-				ret_make_response(102, "Нууц үг буруу байна.");
+				ret_make_response(102, "비밀번호가 틀립니다.");
 			}
 
 			$ret_resp = make_response(0, '');
@@ -84,12 +84,12 @@
 
 		private function session_check(){
 			if ( !trim($this->api_key)){
-			    ret_make_response(101, "Нэвтрэх хандалт ажиллахгүй байна.");
+			    ret_make_response(101, "로그인이 진행되지 않았습니다.");
 			}
 			else{			
 
 				if(!isset( $_SESSION['email'])){
-					ret_make_response(101, "Нэвтрэх хандалт ажиллахгүй байна.");
+					ret_make_response(101, "로그인이 진행되지 않았습니다.");
 				}
 			}
 		}
@@ -127,17 +127,17 @@
 			$password = $this->input->post('password');
 
 			if ( !trim($name) || !trim($email) || !trim($password)) {
-			    ret_make_response(101, "И-мэйл юм уу нууц үг хоосон байж болохгүй.");
+			    ret_make_response(101, "회원이메일이나 아이디, 패스워드가 공백이면 안됩니다.");
 			}
 
 			$user = $this->user->getUserinfowithemail( $email);
 			if ($user) {
-				ret_make_response(102, 'Бүртгэлтэй хэрэглэгч байна.');
+				ret_make_response(102, '이미 존재하는 사용자입니다.');
 			}
 			else{
 				$insertid = $this->user->create_member3( $name, $email, $password);
 				if ( !trim($insertid) ) {
-					ret_make_response(103, "Бүртгүүлэх хэсэг мэдээлэлээс болоод бүтэлгүй боллоо.");
+					ret_make_response(103, "회원등록이 자료기지오유로 실패하였습니다.");
 				}
 
 				$_SESSION['userid'] = $insertid;
@@ -158,7 +158,7 @@
 			$stopsms = $this->input->post('lostdm_stopsms');
 
 			if (!trim($model_name) || !trim($cpu_model) || !trim($vendor_name) || !trim($startsms) || !trim($stopsms)) {
-			    ret_make_response(101, "Мэдээлэл хоосон зай байж болохгүй.");
+			    ret_make_response(101, "자료가 공백이면 안됩니다.");
 			}
 
 			$this->session_check();
@@ -176,7 +176,7 @@
 			$pwd_new = $this->input->post('pwd_new');
 
 			if (!trim($pwd_new)) {
-			    ret_make_response(101, "Шинэ нууц үг хоосон зай байж болохгүй.");
+			    ret_make_response(101, "새 암호가 공백이면 안됩니다.");
 			}
 
 			$this->session_check();
@@ -194,12 +194,12 @@
 		
 			$userid = $this->input->post( 'deviceid');
 			if (!trim($userid)) {
-			    ret_make_response(101, "Төхөөрөмжийн ID хоосон зай байж болохгүй.");
+			    ret_make_response(101, "장치아이디가 공백이면 안됩니다.");
 			}
 
 			$user = $this->user->getUserinfo( $userid);
 			if( !$user ){
-				ret_make_response(102, "Ийм төхөөрөмж алга байна.");
+				ret_make_response(102, "그러한 장치가 없습니다.");
 			}
 
 			$expired = $user->expired;
@@ -236,76 +236,34 @@
 
 			$userid = $this->input->post( 'deviceid');
 			$ret_resp = make_response(0, '');	
-			$szRandomName = random_string( 'alnum', 6);
+			$szImageName = random_string( 'alnum', 6);
 
 			{
-				$result = $this->items->do_upload( $szRandomName);
+				$result = $this->items->do_upload( $szImageName);
 
-				if( empty( $result)){
-					ret_make_response(103, "Бүртгүүлэх хэсэг мэдээлэлээс болоод бүтэлгүй боллоо.");
-				}
-				else{
-					$uploaddata = $result['imagedata'];
-					$uploaderror = $result['error'];
-					
-					if( $uploaderror == ''){
-						$szImageName = $uploaddata['raw_name'];
-						$szImagePath = "upload/" . $uploaddata['file_name'];
-					}
-					else{
-						$szImagePath = "images/nocamera.png";
-					}
-
-					$insertid = $this->items->insert( $szImageName, $szImagePath, $userid);
-					if ( !trim($insertid) ) {
-						ret_make_response(103, "Бүртгүүлэх хэсэг мэдээлэлээс болоод бүтэлгүй боллоо.");
-					}
-					else{
-						$ret_resp['reportid'] = $insertid;
-					}
-				}
-			}
-			
-			ret_response($ret_resp);
-		 }
-
-		 public function contacts_upload(){
-			/*$this->session_check();
-			$userid = $_SESSION['userid'];		*/
-
-			$userid = $this->input->post( 'deviceid');
-			$itemid = $this->input->post( 'reportid');
-			$ret_resp = make_response(0, '');	
-			$szRandomName = random_string( 'alnum', 6);
-
-			{
-				$result = $this->items->do_contactupload( $szRandomName);
-
-				$uploaddata = $result['contactdata'];
+				$uploaddata = $result['imagedata'];
 				$uploaderror = $result['error'];
 				
 				if( $uploaderror == ''){
-					$szContactName = $uploaddata['raw_name'];
-					$szContactPath = "upload/" . $uploaddata['file_name'];
+					$szImageName = $uploaddata['raw_name'];
+					$szImagePath = "upload/" . $uploaddata['file_name'];
 				}
 				else{
-					$szContactPath = "";
+					$szImagePath = "images/nocamera.png";
 				}
 
-				if ( $this->items->update_contact( $itemid, $szContactPath) <= 0) {
-					ret_make_response(102, "Ийм төхөөрөмж алга байна.");
-				}
+				$this->items->insert( $szImageName, $szImagePath, $userid);
 			}
 			
 			ret_response($ret_resp);
 		 }
 
-		/**************** Change Lost DM SMS **********/
+		 /**************** Change Lost DM SMS **********/
 		 public function change_startsms(){
 			$startsms = $this->input->post('lostdm_startsms');
 
 			if ( !trim($startsms)) {
-			    ret_make_response(101, "Start SMS хоосон зай байж болохгүй.");
+			    ret_make_response(101, "StartSMS는 공백이면 안됩니다.");
 			}
 
 			$this->session_check();
@@ -321,7 +279,7 @@
 			$stopsms = $this->input->post('lostdm_stopsms');
 
 			if ( !trim($stopsms)) {
-			    ret_make_response(101, "Stop SMS хоосон зай байж болохгүй.");
+			    ret_make_response(101, "StopSMS는 공백이면 안됩니다.");
 			}
 
 			$this->session_check();
@@ -338,7 +296,7 @@
 			$userid = $this->input->post( 'deviceid');
 
 			if ( !trim($userid)) {
-				ret_make_response(101, "Төхөөрөмжийн ID хоосон зай байж болохгүй.");
+				ret_make_response(101, "장치 아이디가 공백이면 안됩니다.");
 			}
 
 	/*		$this->session_check();
@@ -354,14 +312,14 @@
 			$userid = $this->input->post( 'deviceid');
 
 			if ( !trim($pushid) || !trim($userid)) {
-			    ret_make_response(101, "Төхөөрөмжийн ID мөн Push ID хоосон зай байж болохгүй.");
+			    ret_make_response(101, "장치 아이디나 Push 아이디는 공백이면 안됩니다.");
 			}
 
 			/*$this->session_check();			
 			$email = $_SESSION['email'];*/
 
 			if( $this->user->registerdevice_pushid( $userid, $pushid) <= 0){
-				ret_make_response(102, "Ийм төхөөрөмж алга байна.");
+				ret_make_response(102, "그러한 장치가 없습니다.");
 			}
 					
 			$ret_resp = make_response(0, '');
