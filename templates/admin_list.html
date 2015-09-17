@@ -268,20 +268,20 @@
                     <tr id="row-{{img['id']}}">
                         <td>
                             <ul class="meta-search">
-                                <li>
+                                <li title="Mark this record">
                                     <button type="button" class="btn btn-default" style="padding-top: 3px; padding-bottom: 3px; padding-left: 8px; padding-right: 8px;">
                                         <input type="checkbox" name="checked[]" value="{{img['id']}}" class="checked" onclick="validateCheckAll()"/>
                                     </button>
                                 </li>
-                                <li>
+                                <li title="Record Title">
                                     <i class="glyphicon glyphicon-header"></i> 
                                     <span>{{ img['title'] }}</span>
                                 </li>
-                                <li>
+                                <li title="Record uploaded user">
                                     <i class="glyphicon glyphicon-user"></i> 
                                     <span>{{ img['username'] }}</span>
                                 </li>
-                                <li>
+                                <li title="Record type">
                                     {% if img['target_type'] == conf.TAR_TYPE_IMAGE %}
                                     <i class="glyphicon glyphicon-picture"></i> 
                                     <span>Image</span>
@@ -299,11 +299,11 @@
                                     <span>Model</span>
                                     {% endif %}
                                 </li>
-                                <li>
+                                <li title="Record created date and time">
                                     <i class="glyphicon glyphicon-time"></i> 
                                     <span>{{ img['created_at'] }}</span>
                                 </li>
-                                <li>
+                                <li title="Whether record or pinned or not">
                                     <i class="glyphicon glyphicon-pushpin"></i>
                                     {% if img['pinned'] %}
                                     <span class="text-success" style="font-weight: bold">Pinned</span>
