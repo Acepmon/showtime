@@ -63,6 +63,7 @@ class Showtime(object):
             request.session = session_store.get(sid)
             
         action = request.args.get('action')
+        user = request.cookies.get('cookie_user')
         
         if action == "Signout":
             response = redirect('/')
@@ -76,8 +77,9 @@ class Showtime(object):
             session_store.save(request.session)
             response = redirect('/admin_list')
             response.set_cookie('cookie_name', request.session.sid)
+            response.set_cookie('cookie_user', username)
             return response
-        return self.render_template('index.html', error=error, sid=sid)
+        return self.render_template('index.html', error=error, sid=sid, user=user)
 
     def on_admin_list(self, request, page):
         if request.cookies.get('cookie_name') is None or request.cookies.get('cookie_name') == '':
@@ -87,6 +89,7 @@ class Showtime(object):
         keyword = request.args.get('keyword')
         
         # My changes start here
+        user = request.cookies.get('cookie_user')
         if keyword is None:
             keyword = ""
         
@@ -145,7 +148,7 @@ class Showtime(object):
         pagination = pg.Pagination(page, per_page, count)
 
         return self.render_template('admin_list.html', error=None, images=images, pagination=pagination,
-                                    keyword=keyword, count=count, option=option, selected='true', types=types, search=search, sid=sid, abs_url=cvtools.get_abs_url, url_for=url_for, conf=conf)
+                                    keyword=keyword, count=count, option=option, selected='true', types=types, search=search, sid=sid, user=user, abs_url=cvtools.get_abs_url, url_for=url_for, conf=conf)
 
     def on_admin_toggle_pin(self, request):
         if request.cookies.get('cookie_name') is None:

@@ -525,6 +525,18 @@ def get_list_user(keyword=None, user_id=None, image_id=None, order_by="i.created
     result = mysql_fetch(query, data)
     result_count = mysql_fetch(query_count, data)
     return result, result_count[0]['numrows']
+
+def get_user_with_session(session = None):
+    if session is None:
+        return None
+    
+    query = "select * from user where session_id = %(ses_id)s"
+    data = {"ses_id" : session}
+    result = mysql_fetch(query, data)
+    if len(result) > 0:
+        return result[1]
+    return ""
+    
 # My changes end here
 
 

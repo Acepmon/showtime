@@ -199,7 +199,7 @@
                         </li>
                     </ul>
                 </div>
-                <input type="text" class="form-control" name=keyword id=keyword value="{{ keyword }}" placeholder="Search keyword here...">
+                <input type="text" class="form-control" name=keyword id=keyword value="{{ keyword }}" placeholder="Search here...">
                 <div class="input-group-btn" style="width: 100px;">
                     <select class="form-control" name="option">
                         {% if option == "user" %}
@@ -241,22 +241,22 @@
                 <table class="table">
                     <tr>
                         <th>
-                            <div class="checked_remove">
-                                <button type="button" class="btn btn-default" style="padding: 5px 10px 6px 10px;">
-                                    <input type="checkbox" style="float: left; " name="check_all" id="check_all" onclick="checkAll()"/> <div style="padding-top: 1px; margin-left: 2px; float: left"> Mark All</div>
-                                    <div class="clearfix"></div>
-                                </button>
-                                <div class="btn-group">
-                                    <button type="submit" class="btn btn-default" onclick="return confirm('Are you sure?')"><span class="glyphicon glyphicon-trash text-danger"></span> <span class="text-danger">Remove Marked</span></button>
-                                </div>
-                            </div>
-                        </th>
-                        <th>
-                            <h3 class="text-center text-primary">Target</h3>
-                        </th>
-                        <th style="padding-left: 10px;">
-                            <h3 class="text-left text-primary">Content</h3>
-                        </th>
+                    <div class="checked_remove">
+                        <button type="button" class="btn btn-default" style="padding: 5px 10px 6px 10px;">
+                            <input type="checkbox" style="float: left; " name="check_all" id="check_all" onclick="checkAll()"/> <div style="padding-top: 1px; margin-left: 2px; float: left"> Mark All</div>
+                            <div class="clearfix"></div>
+                        </button>
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-default" onclick="return confirm('Are you sure?')"><span class="glyphicon glyphicon-trash text-danger"></span> <span class="text-danger">Remove Marked</span></button>
+                        </div>
+                    </div>
+                    </th>
+                    <th>
+                    <h3 class="text-center text-primary">Target</h3>
+                    </th>
+                    <th style="padding-left: 10px;">
+                    <h3 class="text-left text-primary">Content</h3>
+                    </th>
                     </tr>
                     {% for img in images %}
                     <tr>
@@ -271,20 +271,22 @@
                                     <span>{{ img['username'] }}</span>
                                 </li>
                                 <li>
+                                    {% if img['target_type'] == conf.TAR_TYPE_IMAGE %}
+                                    <i class="glyphicon glyphicon-picture"></i> 
+                                    <span>Image</span>
+                                    {% elif img['target_type'] == conf.TAR_TYPE_VIDEO %}
+                                    <i class="glyphicon glyphicon-facetime-video"></i> 
+                                    <span>Video</span>
+                                    {% elif img['target_type'] == conf.TAR_TYPE_URL %}
+                                    <i class="glyphicon glyphicon-link"></i> 
+                                    <span>URL</span>
+                                    {% elif img['target_type'] == conf.TAR_TYPE_URL_YT %}
+                                    <i class="glyphicon glyphicon-link"></i> 
+                                    <span>Youtube URL</span>
+                                    {% elif img['target_type'] == conf.TAR_TYPE_MODEL %}
                                     <i class="glyphicon glyphicon-th-large"></i> 
-                                    <span>
-                                        {% if img['target_type'] == conf.TAR_TYPE_IMAGE %}
-                                        Image
-                                        {% elif img['target_type'] == conf.TAR_TYPE_VIDEO %}
-                                        Video
-                                        {% elif img['target_type'] == conf.TAR_TYPE_URL %}
-                                        URL
-                                        {% elif img['target_type'] == conf.TAR_TYPE_URL_YT %}
-                                        Youtube URL
-                                        {% elif img['target_type'] == conf.TAR_TYPE_MODEL %}
-                                        Model
-                                        {% endif %}
-                                    </span>
+                                    <span>Model</span>
+                                    {% endif %}
                                 </li>
                                 <li>
                                     <i class="glyphicon glyphicon-time"></i> 
@@ -304,8 +306,8 @@
                                             <button class="btn btn-default" title="Mark pinned, so it has higher priority when searching"><span class="glyphicon glyphicon-pushpin text-success"></span> <span class="text-success">Pin</span></button>
                                         </a>
                                         {% endif %}
-                                        <a href="/admin_remove_image?id={{ img['id'] }}" onclick="return confirm('are you sure?')">
-                                            <button class="btn btn-default text-danger" title="Remove record"><span class="glyphicon glyphicon-trash text-danger"></span> <span class="text-danger">Remove</span></button>
+                                        <a href="/admin_remove_image?id={{ img['id'] }}" onclick="return confirm('Are you sure?')">
+                                            <button class="btn btn-default text-danger" onclick="javascript:void(0)" title="Remove record"><span class="glyphicon glyphicon-trash text-danger"></span> <span class="text-danger">Remove</span></button>
                                         </a>
                                     </div>
                                 </li>

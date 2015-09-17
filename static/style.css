@@ -1,5 +1,6 @@
 body {
-    background: #E8EFF0;
+    /*background: #E8EFF0;*/
+    background: #F0F5F7;
     margin: 0;
     padding: 0;
 }
@@ -104,7 +105,9 @@ label {
     border-radius: 0px !important;
     border-top-left-radius: 2px !important;
     border-top-right-radius: 2px !important;
-    background-color: #3BE3E8;
+    /*background-color: #3BE3E8;*/
+    background-color: #C4FDFF;
+    /*background-color: white;*/
     border-bottom: 1px solid lightgray;
 }
 .header a {
