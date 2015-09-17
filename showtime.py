@@ -40,8 +40,10 @@ class Showtime(object):
             Rule('/admin_list/', endpoint='admin_list', defaults={'page': 1}),
             Rule('/admin_list/<int:page>', endpoint='admin_list'),
             Rule('/admin_toggle_pin', endpoint='admin_toggle_pin'),
+            Rule('/admin_toggle_multiple_pin', endpoint='admin_toggle_multiple_pin'),
             Rule('/admin_remove_image', endpoint='admin_remove_image'),
             Rule('/admin_remove_multiple_image', endpoint='admin_remove_multiple_image'),
+            Rule('/admin_multiple_image_action', endpoint='admin_multiple_image_action'),
             # Rule('/new_image', endpoint='new_image'),
             Rule('/upload_image', endpoint='upload_image'),
             Rule('/search_image', endpoint='search_image'),
@@ -157,6 +159,16 @@ class Showtime(object):
         if img_id is not None:
             cvtools.toggle_pinned(img_id)
         return redirect(request.referrer)
+    
+    def on_admin_toggle_multiple_pin(self, request):
+        if request.cookies.get('cookie_name') is None:
+            return redirect('/')
+        checked = request.args.getlist('checked[]')
+        for img_id in checked:
+            if img_id is not None:
+                cvtools.toggle_pinned(img_id)
+                    
+        return redirect(request.referrer)
 
     def on_admin_remove_image(self, request):
         if request.cookies.get('cookie_name') is None:
@@ -176,6 +188,9 @@ class Showtime(object):
 
                 if not cvtools.remove_image(img_id, conf.UPLOAD_DIR_SRC + '/' + image['src_name'], tar):
                     error = 1
+        else:
+            return redirect("/")
+        
         return redirect(request.referrer)
     
     # My changes start here
@@ -199,6 +214,46 @@ class Showtime(object):
                     if not cvtools.remove_image(img_id, conf.UPLOAD_DIR_SRC + '/' + image['src_name'], tar):
                         error = 1
                     
+        return redirect(request.referrer)
+    
+    def on_admin_multiple_image_action(self, request):
+        if request.cookies.get('cookie_name') is None:
+            return redirect('/')
+        
+        action = request.args.get('action')
+        checked = request.args.getlist('checked[]')
+        
+        error = 0
+        if action == "pin":
+            for img_id in checked:
+                if img_id is not None:
+                    if cvtools.is_pinned(img_id) is False:
+                        cvtools.toggle_pinned(img_id)
+                    else:
+                        continue
+        elif action == "unpin":
+            for img_id in checked:
+                if img_id is not None:
+                    if cvtools.is_pinned(img_id) is True:
+                        cvtools.toggle_pinned(img_id)
+                    else:
+                        continue
+        elif action == "remove":
+            for img_id in checked:
+                if img_id is not None:
+                    image, count = cvtools.get_list(None, None, img_id)
+                    if len(image) > 0:
+                        image = image[0]
+                        if image['target_type'] == conf.TAR_TYPE_IMAGE:
+                            tar = conf.UPLOAD_DIR_TAR_IMG + '/' + image['target']
+                        elif image['target_type'] == conf.TAR_TYPE_VIDEO:
+                            tar = conf.UPLOAD_DIR_TAR_VIDEO + '/' + image['target']
+                        else:
+                            tar = None
+
+                        if not cvtools.remove_image(img_id, conf.UPLOAD_DIR_SRC + '/' + image['src_name'], tar):
+                            error = 1
+        
         return redirect(request.referrer)
     # My changes end here
 

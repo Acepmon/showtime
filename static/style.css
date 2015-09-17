@@ -127,6 +127,10 @@ input[type=checkbox] {
     margin-bottom: 20px;
 }
 
+.highlight {
+    background-color: #FFFF9C !important;
+}
+
 .search-result table tr:first-child th {
     border: none;
     padding-left: 0px;
@@ -134,6 +138,7 @@ input[type=checkbox] {
 }
 .search-result table tr td:nth-child(1) {
     text-align: left;
+    border-left: 1px solid lightgray;
 }
 .search-result table tr td:nth-child(2) {
     width: 210px;
@@ -142,6 +147,7 @@ input[type=checkbox] {
 .search-result table tr td:nth-child(3) {
     text-align: left;
     padding-left: 10px;
+    border-right: 1px solid lightgray;
 }
 .search-result table tr {
     background-color: #fbfbfb;
@@ -152,6 +158,9 @@ input[type=checkbox] {
     background-color: white;
     padding-top: 0px;
     padding-bottom: 0px;
+}
+.search-result table tr:last-child {
+    border-bottom: 1px solid lightgray;
 }
 
 .search-result ul { padding-left: 0 !important; list-style: none;  }

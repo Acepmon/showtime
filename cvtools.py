@@ -549,7 +549,15 @@ def toggle_pinned(img_id):
     if res:
         return True
     return False
-
+def is_pinned(img_id):
+    query = "SELECT pinned FROM image WHERE id = %(id)s"
+    data = {'id' : img_id}
+    res = mysql_fetch(query, data)
+    if res:
+        if res[0]['pinned'] == 1:
+            return True
+        else:
+            return False
 
 def get_user(user_id):
     if user_id.isdigit():

@@ -48,11 +48,13 @@
             var checked = document.getElementsByClassName("checked");
             for (var i = 0; i < checked.length; i++) {
                 checked[i].checked = true;
+                $("#row-"+checked[i].value).addClass("highlight");
             }
         } else {
             var checked = document.getElementsByClassName("checked");
             for (var i = 0; i < checked.length; i++) {
                 checked[i].checked = false;
+                $("#row-"+checked[i].value).removeClass("highlight");
             }
         }
     }
@@ -63,6 +65,9 @@
         for (var i = 0; i < checked.length; i++) {
             if (checked[i].checked) {
                 count = count + 1;
+                $("#row-"+checked[i].value).addClass("highlight");
+            } else {
+                $("#row-"+checked[i].value).removeClass("highlight")
             }
         }
         if (count === checked.length) {
@@ -222,8 +227,7 @@
 <br />
 
 {% if count > 0 %}
-<!-- action="/admin_remove_multiple_image" -->
-<form action="/admin_remove_multiple_image" method=get>
+<form action="/admin_multiple_image_action" method=get>
     {% if search %}
     <div class="row">
         <div class="col-md-12">
@@ -237,7 +241,7 @@
     <!-- My changes end here -->
     <div class="row">
         <div class="col-md-12 search-result">
-            <div class="table-responsive">
+            <div>
                 <table class="table">
                     <tr>
                         <th>
@@ -247,7 +251,9 @@
                             <div class="clearfix"></div>
                         </button>
                         <div class="btn-group">
-                            <button type="submit" class="btn btn-default" onclick="return confirm('Are you sure?')"><span class="glyphicon glyphicon-trash text-danger"></span> <span class="text-danger">Remove Marked</span></button>
+                            <button type="submit" name="action" value="pin" class="btn btn-default" title="Pin marked"><span class="text-success glyphicon glyphicon-pushpin"></span></button>
+                            <button type="submit" name="action" value="unpin" class="btn btn-default" title="Unpin marked"><span class="text-warning glyphicon glyphicon-pushpin"></span></button>
+                            <button type="submit" name="action" value="remove" class="btn btn-default" onclick="return confirm('Are you sure?')" title="Remove marked"><span class="glyphicon glyphicon-trash text-danger"></span></button>
                         </div>
                     </div>
                     </th>
@@ -259,9 +265,14 @@
                     </th>
                     </tr>
                     {% for img in images %}
-                    <tr>
+                    <tr id="row-{{img['id']}}">
                         <td>
                             <ul class="meta-search">
+                                <li>
+                                    <button type="button" class="btn btn-default" style="padding-top: 3px; padding-bottom: 3px; padding-left: 8px; padding-right: 8px;">
+                                        <input type="checkbox" name="checked[]" value="{{img['id']}}" class="checked" onclick="validateCheckAll()"/>
+                                    </button>
+                                </li>
                                 <li>
                                     <i class="glyphicon glyphicon-header"></i> 
                                     <span>{{ img['title'] }}</span>
@@ -293,22 +304,27 @@
                                     <span>{{ img['created_at'] }}</span>
                                 </li>
                                 <li>
+                                    <i class="glyphicon glyphicon-pushpin"></i>
+                                    {% if img['pinned'] %}
+                                    <span class="text-success" style="font-weight: bold">Pinned</span>
+                                    {% else %}
+                                    <span class="text-warning" style="font-weight: bold">Unpinned</span>
+                                    {% endif %}
+                                </li>
+                                <li>
                                     <div>
-                                        <button class="btn btn-default" onclick="javascript:void(0)" style="padding-top: 3px; padding-bottom: 3px; padding-left: 8px; padding-right: 8px;">
-                                            <input type="checkbox" name="checked[]" value="{{img['id']}}" class="checked" onclick="validateCheckAll()"/>
-                                        </button>
                                         {% if img['pinned'] %}
-                                        <a href="/admin_toggle_pin?id={{ img['id'] }}">
-                                            <button class="btn btn-default" title="Unpin, so it's treated as equal to other images"><span class="glyphicon glyphicon-pushpin text-warning"></span> <span class="text-warning">Unpin</span></button>
-                                        </a>
+                                        <!--                                        <a href="/admin_toggle_pin/?id={{ img['id'] }}">
+                                                                                    <button class="btn btn-default" title="Unpin, so it's treated as equal to other images"><span class="glyphicon glyphicon-pushpin text-warning"></span> <span class="text-warning">Unpin</span></button>
+                                                                                </a>-->
                                         {% else %}
-                                        <a href="/admin_toggle_pin?id={{ img['id'] }}">
-                                            <button class="btn btn-default" title="Mark pinned, so it has higher priority when searching"><span class="glyphicon glyphicon-pushpin text-success"></span> <span class="text-success">Pin</span></button>
-                                        </a>
+                                        <!--                                        <a href="/admin_toggle_pin/?id={{ img['id'] }}">
+                                                                                    <button class="btn btn-default" title="Mark pinned, so it has higher priority when searching"><span class="glyphicon glyphicon-pushpin text-success"></span> <span class="text-success">Pin</span></button>
+                                                                                </a>-->
                                         {% endif %}
-                                        <a href="/admin_remove_image?id={{ img['id'] }}" onclick="return confirm('Are you sure?')">
-                                            <button class="btn btn-default text-danger" onclick="javascript:void(0)" title="Remove record"><span class="glyphicon glyphicon-trash text-danger"></span> <span class="text-danger">Remove</span></button>
-                                        </a>
+                                        <!--                                        <a href="/admin_remove_image/?id={{ img['id'] }}" onclick="return confirm('Are you sure?')">
+                                                                                    <button class="btn btn-default text-danger" onclick="javascript:void(0)" title="Remove record"><span class="glyphicon glyphicon-trash text-danger"></span> <span class="text-danger">Remove</span></button>
+                                                                                </a>-->
                                     </div>
                                 </li>
                             </ul>
