@@ -43,82 +43,99 @@
 <!-- My changes start here -->
 <script type="text/javascript">
     function checkAll() {
-        var check_all = document.getElementById('check_all');
-        if (check_all.checked) {
-            var checked = document.getElementsByClassName("checked");
+    var check_all = document.getElementById('check_all');
+            if (check_all.checked) {
+    var checked = document.getElementsByClassName("checked");
             for (var i = 0; i < checked.length; i++) {
-                checked[i].checked = true;
-                $("#row-"+checked[i].value).addClass("highlight");
-            }
-        } else {
-            var checked = document.getElementsByClassName("checked");
+    checked[i].checked = true;
+            $("#row-" + checked[i].value).addClass("highlight");
+    }
+    } else {
+    var checked = document.getElementsByClassName("checked");
             for (var i = 0; i < checked.length; i++) {
-                checked[i].checked = false;
-                $("#row-"+checked[i].value).removeClass("highlight");
-            }
-        }
+    checked[i].checked = false;
+            $("#row-" + checked[i].value).removeClass("highlight");
+    }
+    }
     }
     function validateCheckAll() {
-        var check_all = document.getElementById('check_all');
-        var checked = document.getElementsByClassName("checked");
-        var count = 0;
-        for (var i = 0; i < checked.length; i++) {
-            if (checked[i].checked) {
-                count = count + 1;
-                $("#row-"+checked[i].value).addClass("highlight");
-            } else {
-                $("#row-"+checked[i].value).removeClass("highlight")
-            }
-        }
-        if (count === checked.length) {
-            check_all.checked = true;
-        } else {
-            check_all.checked = false;
-        }
+    var check_all = document.getElementById('check_all');
+            var checked = document.getElementsByClassName("checked");
+            var count = 0;
+            for (var i = 0; i < checked.length; i++) {
+    if (checked[i].checked) {
+    count = count + 1;
+            $("#row-" + checked[i].value).addClass("highlight");
+    } else {
+    $("#row-" + checked[i].value).removeClass("highlight")
+    }
+    }
+    if (count === checked.length) {
+    check_all.checked = true;
+    } else {
+    check_all.checked = false;
+    }
     }
     function checkAllType() {
-        var check_all = document.getElementById('search-type-all');
-        if (check_all.checked) {
-            var checked = document.getElementsByClassName("search-type-checkbox");
+    var check_all = document.getElementById('search-type-all');
+            if (check_all.checked) {
+    var checked = document.getElementsByClassName("search-type-checkbox");
             for (var i = 0; i < checked.length; i++) {
-                checked[i].checked = true;
-            }
-        } else {
-            var checked = document.getElementsByClassName("search-type-checkbox");
+    checked[i].checked = true;
+    }
+    } else {
+    var checked = document.getElementsByClassName("search-type-checkbox");
             for (var i = 0; i < checked.length; i++) {
-                checked[i].checked = false;
-            }
-        }
+    checked[i].checked = false;
+    }
+    }
     }
     function validateAllType() {
-        var check_all = document.getElementById('search-type-all');
-        var checked = document.getElementsByClassName("search-type-checkbox");
-        var count = 0;
-        for (var i = 0; i < checked.length; i++) {
-            if (checked[i].checked) {
-                count = count + 1;
-            }
-        }
-        if (count === checked.length) {
-            check_all.checked = true;
-        } else {
-            check_all.checked = false;
-        }
+    var check_all = document.getElementById('search-type-all');
+            var checked = document.getElementsByClassName("search-type-checkbox");
+            var count = 0;
+            for (var i = 0; i < checked.length; i++) {
+    if (checked[i].checked) {
+    count = count + 1;
+    }
+    }
+    if (count === checked.length) {
+    check_all.checked = true;
+    } else {
+    check_all.checked = false;
+    }
     }
     function checkTypeFromOuter(element, num) {
-        var element = element;
-        var childs = element.children;
-        if (childs[0].checked) {
-            childs[0].checked = false;
-        } else {
-            childs[0].checked = true;
-        }
-        if (num === 0) {
-            checkAllType();
-        }
-        validateAllType();
-        var parent = element.parentElement.parentElement;
-        parent.style.display = "block";
+    var element = element;
+            var childs = element.children;
+            if (childs[0].checked) {
+    childs[0].checked = false;
+    } else {
+    childs[0].checked = true;
+    }
+    if (num === 0) {
+    checkAllType();
+    }
+    validateAllType();
+            var parent = element.parentElement.parentElement;
+            parent.style.display = "block";
+    }
+    function addOrUpdateUrlParam(name, value)
+    {
+    var href = window.location.href;
+            var regex = new RegExp("[&\\?]" + name + "=");
+            if (regex.test(href))
+    {
+    regex = new RegExp("([&\\?])" + name + "=\\d+");
+            window.location.href = href.replace(regex, "$1" + name + "=" + value);
+    }
+    else
+    {
+    if (href.indexOf("?") > - 1)
+            window.location.href = href + "&" + name + "=" + value;
+            else
+            window.location.href = href + "?" + name + "=" + value;
+    }
     }
 </script>
 <!-- My changes end here -->
@@ -133,7 +150,7 @@
         {% if error %}
         <p class="text-danger"><strong>Oh snap!</strong> {{ error }}</p>
         {% endif %}
-        <form method="get" enctype="multipart/form-data">
+        <form action="/admin_list/" method="get" enctype="multipart/form-data">
             <div class="input-group">
                 <div class="input-group-btn">
                     <button tabindex="-1" class="btn btn-default" type="button">Filter</button>
@@ -361,8 +378,26 @@
         {% if pagination.page == 1 or pagination.page < 1 %}
         <li class="disabled"><a href="javascript:void(0)">&laquo; Back</a></li>
         {% else %}
+        {% if search %}
+        <li><a href="javascript:void(0)" onclick="addOrUpdateUrlParam('page', '{{pagination.page - 1}}')">&laquo; Back</a></li>
+        {% else %}
         <li><a href="{{ url_for('admin_list/' ~ (pagination.page - 1))}}">&laquo; Back</a></li>
         {% endif %}
+        {% endif %}
+
+        {% if search %}
+        {%- for page in pagination.iter_pages() %}
+        {% if page %}
+        {% if page != pagination.page %}
+        <li><a href="javascript:void(0)" onclick="addOrUpdateUrlParam('page', '{{page}}');" >{{ page }}</a></li>
+        {% else %}
+        <li class="active"><a href="">{{ page }}</a></li>
+        {% endif %}
+        {% else %}
+        <!--<span class=ellipsis>…</span>-->
+        {% endif %}
+        {%- endfor %}
+        {% else %}
         {%- for page in pagination.iter_pages() %}
         {% if page %}
         {% if page != pagination.page %}
@@ -374,8 +409,14 @@
         <!--<span class=ellipsis>…</span>-->
         {% endif %}
         {%- endfor %}
+        {% endif %}
+
         {% if pagination.has_next %}
+        {% if search %}
+        <li><a href="javascript:void(0)" onclick="addOrUpdateUrlParam('page', '{{pagination.page + 1}}')">Next &raquo;</a></li>
+        {% else %}
         <li><a href="{{ url_for('admin_list/' ~ (pagination.page + 1))}}">Next &raquo;</a></li>
+        {% endif %}
         {% endif %}
     </ul>
 </nav>

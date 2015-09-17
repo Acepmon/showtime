@@ -97,6 +97,7 @@ class Showtime(object):
         
         option = request.args.get('option')
         action = request.args.get('action')
+        search_page = request.args.get('page')
         
         types = ['', '', '', '', '', '']
         
@@ -133,7 +134,14 @@ class Showtime(object):
         search = request.args.get('search')
         # My changes end here
         
-        page = cvtools.num(page)
+        if search is not None:
+            if search_page is not None:
+                page = int(search_page)
+            else:
+                page = cvtools.num(page)
+        else:
+            page = cvtools.num(page)
+        
         per_page = 10
         
         # My changes start here
