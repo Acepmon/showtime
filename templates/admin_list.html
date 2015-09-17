@@ -356,7 +356,30 @@
         </div>
     </div>
 </form>
-<div class=pagination>
+<nav>
+    <ul class="pagination">
+        {% if pagination.page == 1 or pagination.page < 1 %}
+        <li class="disabled"><a href="javascript:void(0)">&laquo; Back</a></li>
+        {% else %}
+        <li><a href="{{ url_for('admin_list/' ~ (pagination.page - 1))}}">&laquo; Back</a></li>
+        {% endif %}
+        {%- for page in pagination.iter_pages() %}
+        {% if page %}
+        {% if page != pagination.page %}
+        <li><a href="{{ url_for('admin_list/' ~ (page)) }}">{{ page }}</a></li>
+        {% else %}
+        <li class="active"><a href="">{{ page }}</a></li>
+        {% endif %}
+        {% else %}
+        <!--<span class=ellipsis>…</span>-->
+        {% endif %}
+        {%- endfor %}
+        {% if pagination.has_next %}
+        <li><a href="{{ url_for('admin_list/' ~ (pagination.page + 1))}}">Next &raquo;</a></li>
+        {% endif %}
+    </ul>
+</nav>
+<!--<div class=pagination>
     {%- for page in pagination.iter_pages() %}
     {% if page %}
     {% if page != pagination.page %}
@@ -371,7 +394,7 @@
     {% if pagination.has_next %}
     <a href="{{ url_for('admin_list/' ~ (pagination.page + 1))}}">Next &raquo;</a>
     {% endif %}
-</div>
+</div>-->
 <!-- My changes start here -->
 {% else %}
 <div class="alert alert-danger" role="alert">
