@@ -1,6 +1,7 @@
 body {
     /*background: #E8EFF0;*/
-    background: #F0F5F7;
+    /*background: #F0F5F7;*/
+    background: #fff;
     margin: 0;
     padding: 0;
 }
@@ -93,18 +94,19 @@ label {
 
 
 .box2 {
-    margin-top: 60px;
-    background: white;
-    box-shadow: 0 1px 4px #BED1D4;
-    border-radius: 2px;
+    /*margin-top: 60px;*/
+    /*background: white;*/
+    /*box-shadow: 0 1px 4px #BED1D4;*/
+    /*border-radius: 2px;*/
 }
 @media only screen and (max-width:760px) {
     
 }
 .header {
+    /*padding-top: 80px;*/
     border-radius: 0px !important;
-    border-top-left-radius: 2px !important;
-    border-top-right-radius: 2px !important;
+/*    border-top-left-radius: 2px !important;
+    border-top-right-radius: 2px !important;*/
     /*background-color: #3BE3E8;*/
     background-color: #C4FDFF;
     /*background-color: white;*/

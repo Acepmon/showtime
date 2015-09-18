@@ -6,26 +6,31 @@
 <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
 {% block styles %}{% endblock %}
 {% if sid %}
+<div style="height: 50px;"></div>
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-              <span class="sr-only">Menu</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
+                <span class="sr-only">Menu</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">ShowTime</a>
+            <a class="navbar-brand" href="/admin_list/">ShowTime</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
+                {% if page == "admin_list" %}
+                <li class="active"><a href="/admin_list/"><span class="text-primary">List</span></a></li>
+                {% else %}
                 <li><a href="/admin_list/">List</a></li>
+                {% endif %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> {{user}} <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user text-primary"></span> <span class="text-primary">{{user}}</span> <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="?action=Signout">Signout</a></li>
+                        <li><a href="?action=Signout"><span class="glyphicon glyphicon-log-out text-info"></span> <span class="text-info">Signout</span></a></li>
                     </ul>
                 </li>
             </ul>
@@ -33,11 +38,11 @@
     </div><!--/.container-fluid -->
 </nav>
 {% endif %}
+<div class="row jumbotron header">
+    <h1 class="text-center"><a href="/">ShowTime</a></h1>
+    <p class="text-center">It's SHOWTIME baby!</p>
+</div>
 <div class="container box2">
-    <div class="row jumbotron header">
-        <h1 class="text-center"><a href="/">ShowTime</a></h1>
-        <p class="text-center">It's SHOWTIME baby!</p>
-    </div>
     <div class="col-md-12">
         {% block body %}{% endblock %}
     </div>

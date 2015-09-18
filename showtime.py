@@ -57,6 +57,9 @@ class Showtime(object):
         ])
 
     def on_index(self, request):
+        if request.cookies.get('cookie_name') is not None and request.cookies.get('cookie_name') != '':
+            return redirect('/admin_list/')
+        
         error = None
         sid = request.cookies.get('cookie_name')
         if sid is None:
@@ -81,7 +84,7 @@ class Showtime(object):
             response.set_cookie('cookie_name', request.session.sid)
             response.set_cookie('cookie_user', username)
             return response
-        return self.render_template('index.html', error=error, sid=sid, user=user)
+        return self.render_template('index.html', page="index", error=error, sid=sid, user=user)
 
     def on_admin_list(self, request, page):
         if request.cookies.get('cookie_name') is None or request.cookies.get('cookie_name') == '':
@@ -157,7 +160,7 @@ class Showtime(object):
             return self.error_404()
         pagination = pg.Pagination(page, per_page, count)
 
-        return self.render_template('admin_list.html', error=None, images=images, pagination=pagination,
+        return self.render_template('admin_list.html', page="admin_list", error=None, images=images, pagination=pagination,
                                     keyword=keyword, count=count, option=option, selected='true', types=types, search=search, sid=sid, user=user, abs_url=cvtools.get_abs_url, url_for=url_for, conf=conf)
 
     def on_admin_toggle_pin(self, request):
